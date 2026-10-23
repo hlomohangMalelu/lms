@@ -1,0 +1,2 @@
+-- Initial schema placeholder.
+-- Add normalized CREATE TABLE statements before enabling persistence.

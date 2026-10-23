@@ -1,0 +1,2 @@
+-- Development seed data placeholder.
+-- Use non-production demo credentials only.

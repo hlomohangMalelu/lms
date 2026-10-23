@@ -1,0 +1,17 @@
+build/
+cmake-build-*/
+out/
+data/
+*.db
+*.db-shm
+*.db-wal
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+coverage/
+*.gcda
+*.gcno
+*.profraw
+*.tmp
+*.log
