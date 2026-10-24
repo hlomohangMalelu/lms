@@ -1,0 +1,185 @@
+name: CMake build
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  minimum-msvc:
+    name: Minimum MSVC (VS2017 15.9 / v141)
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+    - name: Install VS2017 15.9 toolset
+      shell: pwsh
+      run: |
+        $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+        $vsPath = & $vswhere -latest -products '*' -version '[17.0,18.0)' `
+          -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+        if (!$vsPath) { throw 'Visual Studio 2022 installation not found' }
+        $installer = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\setup.exe"
+        $arguments = @('modify', '--installPath', "`"$vsPath`"", '--add',
+          'Microsoft.VisualStudio.Component.VC.v141.x86.x64', '--quiet', '--norestart')
+        $process = Start-Process -FilePath $installer -ArgumentList $arguments -Wait -PassThru
+        if ($process.ExitCode -notin @(0, 3010)) {
+          throw "v141 installation failed with exit code $($process.ExitCode)"
+        }
+        if (!(Test-Path "$vsPath\VC\Tools\MSVC\14.16.*\bin\Hostx64\x64\cl.exe")) {
+          throw 'VS2017 15.9 compiler was not installed'
+        }
+    - name: Configure library, tests and example with v141
+      run: >-
+        cmake -S . -B build/minimum-msvc
+        -G "Visual Studio 17 2022" -A x64 -T v141
+        -DCMAKE_CXX_STANDARD=17 -DBUILD_SHARED_LIBS=ON
+        -DSQLITECPP_BUILD_TESTS=ON -DSQLITECPP_BUILD_EXAMPLES=ON
+        -DSQLITECPP_RUN_CPPCHECK=OFF -DSQLITECPP_RUN_CPPLINT=OFF
+    - name: Build library, tests and example
+      run: cmake --build build/minimum-msvc --config Release --parallel 2
+    - name: Run unit tests and example
+      run: ctest --test-dir build/minimum-msvc -C Release --verbose --output-on-failure
+    - name: Configure C++17 filesystem and string_view consumer with v141
+      run: >-
+        cmake -S tests/consumer -B build/minimum-msvc-consumer
+        -G "Visual Studio 17 2022" -A x64 -T v141
+        -DSQLITECPP_CXX_STANDARD=17 -DCONSUMER_CXX_STANDARD=17
+        -DSQLITECPP_EXPECTED_MSVC_VERSION=1916
+    - name: Build consumer
+      run: cmake --build build/minimum-msvc-consumer --config Release --parallel 2
+    - name: Run consumer
+      run: ctest --test-dir build/minimum-msvc-consumer -C Release --output-on-failure
+
+  assertion-handler:
+    name: Custom assertion handler (${{ matrix.build_type }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+    - name: Configure tests and example with custom assertions
+      run: >-
+        cmake -S . -B build/assertion-handler
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DBUILD_SHARED_LIBS=OFF
+        -DSQLITE_ENABLE_ASSERT_HANDLER=ON
+        -DSQLITECPP_BUILD_TESTS=ON
+        -DSQLITECPP_BUILD_EXAMPLES=ON
+        -DSQLITECPP_RUN_CPPCHECK=OFF
+        -DSQLITECPP_RUN_CPPLINT=OFF
+    - name: Build tests and example
+      run: cmake --build build/assertion-handler --parallel 2
+    - name: Run tests and example
+      run: ctest --test-dir build/assertion-handler --verbose --output-on-failure
+    - name: Configure subdirectory example with custom assertions
+      run: >-
+        cmake -S examples/example2 -B build/assertion-handler-example2
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DBUILD_SHARED_LIBS=OFF
+        -DSQLITE_ENABLE_ASSERT_HANDLER=ON
+    - name: Build subdirectory example
+      run: cmake --build build/assertion-handler-example2 --parallel 2
+
+  build:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - {
+            name: "Windows Latest MSVC",
+            os: windows-latest,
+            generator: "Visual Studio 18 2026",
+            generator_options: "",
+            build_type: "Debug",
+            build_shared_libs: "ON",
+            cc: "cl", cxx: "cl",
+            extra_path: "",
+          }
+        - {
+            name: "Windows VS2022 x86 Release Shared",
+            os: windows-2022,
+            generator: "Visual Studio 17 2022",
+            generator_options: "-A Win32",
+            build_type: "Release",
+            build_shared_libs: "ON",
+            cc: "cl", cxx: "cl",
+            extra_path: "",
+          }
+        - {
+            name: "Windows VS2022 x86 Release Static",
+            os: windows-2022,
+            generator: "Visual Studio 17 2022",
+            generator_options: "-A Win32",
+            build_type: "Release",
+            build_shared_libs: "OFF",
+            cc: "cl", cxx: "cl",
+            extra_path: "",
+          }
+        - {
+            name: "Windows Latest MinGW",
+            os: windows-latest,
+            generator: "MinGW Makefiles",
+            generator_options: "",
+            build_type: "Debug",
+            build_shared_libs: "ON",
+            cc: "gcc", cxx: "g++",
+            extra_path: "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin",
+          }
+        - {
+            name: "Ubuntu 24.04 GCC",
+            os: ubuntu-24.04,
+            generator: "Unix Makefiles",
+            generator_options: "",
+            build_type: "Debug",
+            build_shared_libs: "ON",
+            cc: "gcc", cxx: "g++",
+            extra_path: "",
+          }
+        - {
+            name: "Ubuntu 22.04 GCC",
+            os: ubuntu-22.04,
+            generator: "Unix Makefiles",
+            generator_options: "",
+            build_type: "Debug",
+            build_shared_libs: "ON",
+            cc: "gcc", cxx: "g++",
+            extra_path: "",
+          }
+        - {
+            name: "macOS Latest Clang",
+            os: macos-latest,
+            generator: "Unix Makefiles",
+            generator_options: "",
+            build_type: "Debug",
+            build_shared_libs: "ON",
+            cc: "clang", cxx: "clang++",
+            extra_path: "",
+          }
+
+    steps:
+    - name: Checkout ${{ github.ref_name }}
+      uses: actions/checkout@v7
+      with:
+        submodules: recursive
+    - name: set extra GITHUB_PATH ${{ matrix.config.extra_path }} (for MinGW)
+      shell: bash
+      run: echo "${{ matrix.config.extra_path }}" >> $GITHUB_PATH
+    - name: set env CXX=${{ matrix.config.cxx }}
+      shell: cmake -P {0}
+      run: |
+        set(ENV{CC} ${{ matrix.config.cc }})
+        set(ENV{CXX} ${{ matrix.config.cxx }})
+    - run: mkdir build
+    - run: cmake -G "${{ matrix.config.generator }}" ${{ matrix.config.generator_options }} -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.config.build_shared_libs }} -DSQLITECPP_BUILD_TESTS=ON -DSQLITECPP_BUILD_EXAMPLES=ON -DSQLITECPP_RUN_CPPCHECK=OFF -DSQLITECPP_RUN_CPPLINT=OFF ..
+      working-directory: build
+    - run: cmake --build build --config ${{ matrix.config.build_type }}
+    - run: ctest --verbose --output-on-failure --test-dir build -C ${{ matrix.config.build_type }}

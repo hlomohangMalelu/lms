@@ -1,0 +1,59 @@
+---
+name: sqlitecpp-build-cmake
+description: Build SQLiteCpp with CMake. Use for CMake builds, tests, options, or build scripts.
+---
+
+# SQLiteCpp CMake Build
+
+## Quick builds
+- Windows (VS 2026):
+  - `mkdir build`
+  - `cd build`
+  - `cmake -G "Visual Studio 18 2026" -DSQLITECPP_BUILD_TESTS=ON -DSQLITECPP_BUILD_EXAMPLES=ON ..`
+  - `cmake --build . --config Release`
+- Unix/macOS:
+  - `mkdir build && cd build`
+  - `cmake -DCMAKE_BUILD_TYPE=Debug -DSQLITECPP_BUILD_TESTS=ON -DSQLITECPP_BUILD_EXAMPLES=ON ..`
+  - `cmake --build .`
+
+## Build scripts
+- `build.bat` (Windows) enables shared libs, tests, examples, and runs `ctest`.
+- `build.sh` (Unix) enables ASAN, shared libs, tests, examples, and runs `ctest`.
+
+## Common options
+- `SQLITECPP_BUILD_TESTS` (OFF): build unit tests.
+- `SQLITECPP_BUILD_EXAMPLES` (OFF): build examples.
+- `BUILD_SHARED_LIBS` (OFF): build shared libs (DLLs).
+- `SQLITECPP_INTERNAL_SQLITE` (ON): use bundled sqlite3 source.
+- `SQLITE_ENABLE_COLUMN_METADATA` (ON): enable `getColumnOriginName()`.
+- `SQLITECPP_RUN_CPPLINT` (ON): run cpplint target.
+- `SQLITECPP_RUN_CPPCHECK` (ON): run cppcheck target.
+- `SQLITECPP_RUN_DOXYGEN` (OFF): generate docs.
+- `SQLITECPP_USE_ASAN` (OFF): address sanitizer.
+- `SQLITECPP_USE_UBSAN` (OFF): undefined behavior sanitizer for the library and linked consumers.
+- `SQLITECPP_USE_GCOV` (OFF): GCov coverage.
+- `SQLITECPP_DISABLE_STD_FILESYSTEM` (OFF): disable std::filesystem support.
+- `SQLITECPP_DISABLE_EXPANDED_SQL` (OFF): disable sqlite3_expanded_sql support.
+
+## Tests
+- `ctest --output-on-failure`
+- `ctest --output-on-failure -V`
+- `ctest --output-on-failure -R "Database"`
+
+## Notes
+- Tests can use a system `GTest`; otherwise they fall back to the `googletest` submodule.
+- If the submodule is needed: `git submodule update --init --recursive`.
+- SQLiteCpp requires CMake 3.16 or newer, C++17 or newer, and SQLite 3.38.0 or newer.
+- `find_package(SQLite3 3.38.0 REQUIRED)` checks discovered system SQLite versions.
+  Custom SQLite targets are also covered by the source-level compile-time version check.
+- MSVC requires VS2017 15.9 / MSVC 19.16 or newer, enforced with a fatal configuration diagnostic.
+- `cxx_std_17` requests a standard mode; it does not prove complete C++17 feature support.
+  Old MSVC toolsets are a special case: CMake can advertise standard meta-features even when the
+  compiler has no standard-selection flag, and can map C++17 to `/std:c++latest` on VS2015 Update 3.
+  `CXX_STANDARD_REQUIRED` therefore does not guarantee an early rejection of unsupported MSVC versions.
+  Preserve explicit minimum-version diagnostics when needed, using `message(FATAL_ERROR ...)`.
+  See https://cmake.org/cmake/help/latest/prop_tgt/CXX_STANDARD_REQUIRED.html and
+  https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html#requiring-language-standards.
+- Keep the minimum CMake version deliberate and update CMake configuration and documentation together.
+- The `...4.4` policy maximum in `cmake_minimum_required` does not cap the supported CMake version;
+  it opts into policy behavior through CMake 4.4 while still allowing newer CMake releases.
