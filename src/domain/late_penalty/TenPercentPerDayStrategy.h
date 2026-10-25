@@ -4,9 +4,14 @@
 
 namespace lms::domain {
 
-class TenPercentPerDayStrategy final : public ILatePenaltyStrategy {
-public:
-    [[nodiscard]] double apply(double rawMark,double maximumMark,int daysLate) const override;
-};
+    class TenPercentPerDayStrategy : public ILatePenaltyStrategy {
+        public:
+            double calculateFinalMark(
+                double rawMark,
+                double maxMark,
+                int daysLate
+            ) const override;
+    };
 
-} // namespace lms::domain
+}
+//lms::domain
