@@ -1,6 +1,6 @@
 #pragma once
 
-#include "domain/User.h"
+#include "domain/user/User.h"
 
 #include <optional>
 
