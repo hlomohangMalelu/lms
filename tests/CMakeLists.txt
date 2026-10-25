@@ -21,6 +21,8 @@ file(GLOB_RECURSE LMS_DOMAIN_SOURCES CONFIGURE_DEPENDS
 
 list(APPEND LMS_TEST_SOURCES
     "${PROJECT_SOURCE_DIR}/src/repository/submission/SQLiteSubmissionRepository.cpp"
+    "${PROJECT_SOURCE_DIR}/src/repository/submission/SQLiteSubmissionRepository.cpp"
+    "${PROJECT_SOURCE_DIR}/src/repository/audit_log/SQLiteAuditLogRepository.cpp"
 )
 
 add_executable(lms_tests
