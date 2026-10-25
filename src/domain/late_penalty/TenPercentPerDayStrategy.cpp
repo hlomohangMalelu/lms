@@ -1,12 +1,10 @@
-#include "domain/TenPercentPerDayStrategy.h"
+#include "domain/late_penalty/TenPercentPerDayStrategy.h"
 
 #include <algorithm>
 
 namespace lms::domain {
 
-double TenPercentPerDayStrategy::apply(double rawMark,
-                                       double maximumMark,
-                                       int daysLate) const {
+double TenPercentPerDayStrategy::apply(double rawMark, double maximumMark,  int daysLate) const {
     if (daysLate <= 0) {
         return std::clamp(rawMark, 0.0, maximumMark);
     }

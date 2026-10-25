@@ -13,7 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(LMS_BUILD_TESTS "Build LMS tests" ON)
 option(LMS_ENABLE_SQLITECPP "Build and link vendored SQLiteCpp" ON)
-option(LMS_ENABLE_BCRYPT "Build and link vendored bcrypt" OFF)
+option(LMS_ENABLE_BCRYPT "Build and link vendored bcrypt" ON)
 
 add_library(lms_options INTERFACE)
 
@@ -73,34 +73,19 @@ if(LMS_ENABLE_SQLITECPP)
 endif()
 
 if(LMS_ENABLE_BCRYPT)
-    set(BCRYPT_SOURCE_DIR
-        "${CMAKE_CURRENT_SOURCE_DIR}/third_party/bcrypt"
-        CACHE PATH "bcrypt source directory"
-    )
+    set(BUILD_TESTS OFF CACHE BOOL "" FORCE)
 
-    set(BCRYPT_TARGET "bcrypt" CACHE STRING
-        "CMake target exported by the selected bcrypt implementation"
-    )
-
-    if(NOT EXISTS "${BCRYPT_SOURCE_DIR}/CMakeLists.txt")
-        message(FATAL_ERROR
-            "bcrypt CMakeLists.txt not found: ${BCRYPT_SOURCE_DIR}"
-        )
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/third_party/bcrypt/CMakeLists.txt")
+        message(FATAL_ERROR "Bundled bcrypt library was not found.")
     endif()
 
     add_subdirectory(
-        "${BCRYPT_SOURCE_DIR}"
+        "${CMAKE_CURRENT_SOURCE_DIR}/third_party/bcrypt"
         "${CMAKE_BINARY_DIR}/third_party/bcrypt"
         EXCLUDE_FROM_ALL
     )
 
-    if(NOT TARGET "${BCRYPT_TARGET}")
-        message(FATAL_ERROR
-            "bcrypt target '${BCRYPT_TARGET}' not found."
-        )
-    endif()
-
-    target_link_libraries(lms PRIVATE "${BCRYPT_TARGET}")
+    target_link_libraries(lms PRIVATE bcrypt)
     target_compile_definitions(lms PRIVATE LMS_ENABLE_BCRYPT=1)
 endif()
 
