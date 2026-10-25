@@ -90,6 +90,24 @@ CREATE TABLE submissions (
 
 
 
+CREATE TABLE mark_records (
+    id               INTEGER PRIMARY KEY,
+    submission_id    INTEGER NOT NULL UNIQUE REFERENCES submissions(id) ON DELETE RESTRICT,
+    moderated_by     INTEGER REFERENCES users(id) ON DELETE RESTRICT,
+    moderated_mark   REAL CHECK (
+        moderated_mark IS NULL OR moderated_mark >= 0
+    ),
+    moderation_notes TEXT,
+    moderated_at     TEXT CHECK (
+        moderated_at IS NULL OR datetime(moderated_at) IS NOT NULL
+    ),
+    approved_by      INTEGER REFERENCES users(id) ON DELETE RESTRICT,
+    approved_at      TEXT CHECK (
+        approved_at IS NULL OR datetime(approved_at) IS NOT NULL
+    )
+);
+
+
 CREATE TABLE audit_log (
     id             INTEGER PRIMARY KEY,
     submission_id  INTEGER NOT NULL REFERENCES submissions(id) ON DELETE RESTRICT,
