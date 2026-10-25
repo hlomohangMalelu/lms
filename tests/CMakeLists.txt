@@ -19,6 +19,12 @@ file(GLOB_RECURSE LMS_DOMAIN_SOURCES CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/src/domain/*.cpp"
 )
 
+list(APPEND LMS_TEST_SOURCES
+    "${PROJECT_SOURCE_DIR}/src/repository/submission/SQLiteSubmissionRepository.cpp"
+    "${PROJECT_SOURCE_DIR}/src/repository/submission/SQLiteSubmissionRepository.cpp"
+    "${PROJECT_SOURCE_DIR}/src/repository/audit_log/SQLiteAuditLogRepository.cpp"
+)
+
 add_executable(lms_tests
     ${LMS_TEST_SOURCES}
     ${LMS_DOMAIN_SOURCES}
@@ -28,11 +34,15 @@ target_include_directories(lms_tests PRIVATE
     "${PROJECT_SOURCE_DIR}/src"
 )
 
-target_link_libraries(lms_tests PRIVATE
-    lms_options
-    GTest::gtest_main
-    bcrypt
+
+target_link_libraries(lms_tests
+    PRIVATE
+        GTest::gtest_main
+        bcrypt
+        lms_options
+        SQLiteCpp
 )
+
 
 include(GoogleTest)
 gtest_discover_tests(lms_tests)
