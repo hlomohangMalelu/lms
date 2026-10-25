@@ -7,18 +7,39 @@ namespace lms::domain {
 using UserId = long long;
 
 class User {
-public:
-    User(UserId id, std::string username, std::string displayName);
-    virtual ~User() = default;
+    private:
+        UserId userId_;
+        std::string role_;
+        std::string username_;
+        std::string passwordHash_;
+        bool active_;
+        std::string lastName_;
+        std::string firstName_;
 
-    [[nodiscard]] UserId id() const noexcept;
-    [[nodiscard]] const std::string& username() const noexcept;
-    [[nodiscard]] const std::string& displayName() const noexcept;
+    public:
+        User(
+            UserId userId,
+            std::string role,
+            std::string username,
+            std::string passwordHash,
+            bool active,
+            std::string lastName,
+            std::string firstName
+        );
 
-private:
-    UserId id_;
-    std::string username_;
-    std::string displayName_;
+        virtual ~User() = default;
+
+        UserId userId() const noexcept;
+        const std::string& username() const noexcept;
+        const std::string& passwordHash() const noexcept;
+        const std::string& lastName() const noexcept;
+        const std::string& firstName() const noexcept;
+        bool isActive() const noexcept;
+
+        virtual bool isAllowed(const std::string& permission) const = 0;
+
+        virtual std::string getRole() const = 0;
+
 };
 
 } // namespace lms::domain
