@@ -53,6 +53,9 @@ if(LMS_ENABLE_SQLITECPP)
     set(SQLITECPP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
     set(SQLITECPP_INTERNAL_SQLITE OFF CACHE BOOL "" FORCE)
     set(SQLITECPP_FIND_SQLITE ON CACHE BOOL "" FORCE)
+    # The source archive omits SQLiteCpp's optional .github metadata files.
+    # They are not needed to compile or link the library.
+    set(SQLITECPP_INCLUDE_SCRIPT OFF CACHE BOOL "" FORCE)
 
     add_subdirectory(
         "${SQLITECPP_SOURCE_DIR}"

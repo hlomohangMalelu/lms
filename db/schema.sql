@@ -1,11 +1,11 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE departments (
+CREATE TABLE IF NOT EXISTS departments (
     id    INTEGER PRIMARY KEY,
     name  TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE courses (
+CREATE TABLE IF NOT EXISTS courses (
     id             INTEGER PRIMARY KEY,
     code           TEXT NOT NULL UNIQUE,
     title          TEXT NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE courses (
 );
 
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id             INTEGER PRIMARY KEY,
     username       TEXT NOT NULL UNIQUE COLLATE NOCASE,
     password_hash  TEXT NOT NULL,          -- bcrypt hash; the salt is embedded in the hash string
@@ -22,36 +22,36 @@ CREATE TABLE users (
     active         INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1))
 );
 
-CREATE TABLE students (
+CREATE TABLE IF NOT EXISTS students (
     user_id     INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE RESTRICT,
     student_no  TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE lecturers (
+CREATE TABLE IF NOT EXISTS lecturers (
     user_id   INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE RESTRICT,
     staff_no  TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE heads_of_department (
+CREATE TABLE IF NOT EXISTS heads_of_department (
     user_id        INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE RESTRICT,
     department_id  INTEGER NOT NULL UNIQUE REFERENCES departments(id) ON DELETE RESTRICT
 );
 
 
-CREATE TABLE enrolments (
+CREATE TABLE IF NOT EXISTS enrolments (
     student_id  INTEGER NOT NULL REFERENCES students(user_id) ON DELETE RESTRICT,
     course_id   INTEGER NOT NULL REFERENCES courses(id) ON DELETE RESTRICT,
     PRIMARY KEY (student_id, course_id)
 );
 
-CREATE TABLE course_lecturers (
+CREATE TABLE IF NOT EXISTS course_lecturers (
     lecturer_id  INTEGER NOT NULL REFERENCES lecturers(user_id) ON DELETE RESTRICT,
     course_id    INTEGER NOT NULL REFERENCES courses(id) ON DELETE RESTRICT,
     PRIMARY KEY (lecturer_id, course_id)
 );
 
 
-CREATE TABLE assignments (
+CREATE TABLE IF NOT EXISTS assignments (
     id            INTEGER PRIMARY KEY,
     course_id     INTEGER NOT NULL REFERENCES courses(id) ON DELETE RESTRICT,
     created_by    INTEGER NOT NULL REFERENCES lecturers(user_id) ON DELETE RESTRICT,
@@ -61,7 +61,7 @@ CREATE TABLE assignments (
     max_mark      REAL NOT NULL CHECK (max_mark > 0)
 );
 
-CREATE TABLE extensions (
+CREATE TABLE IF NOT EXISTS extensions (
     id             INTEGER PRIMARY KEY,
     assignment_id  INTEGER NOT NULL REFERENCES assignments(id) ON DELETE RESTRICT,
     student_id     INTEGER NOT NULL REFERENCES students(user_id) ON DELETE RESTRICT,
@@ -72,7 +72,7 @@ CREATE TABLE extensions (
 );
 
 
-CREATE TABLE submissions (
+CREATE TABLE IF NOT EXISTS submissions (
     id               INTEGER PRIMARY KEY,
     assignment_id    INTEGER NOT NULL REFERENCES assignments(id) ON DELETE RESTRICT,
     student_id       INTEGER NOT NULL REFERENCES students(user_id) ON DELETE RESTRICT,
@@ -90,7 +90,7 @@ CREATE TABLE submissions (
 
 
 
-CREATE TABLE mark_records (
+CREATE TABLE IF NOT EXISTS mark_records (
     id               INTEGER PRIMARY KEY,
     submission_id    INTEGER NOT NULL UNIQUE REFERENCES submissions(id) ON DELETE RESTRICT,
     moderated_by     INTEGER REFERENCES users(id) ON DELETE RESTRICT,
@@ -108,7 +108,7 @@ CREATE TABLE mark_records (
 );
 
 
-CREATE TABLE audit_log (
+CREATE TABLE IF NOT EXISTS audit_log (
     id             INTEGER PRIMARY KEY,
     submission_id  INTEGER NOT NULL REFERENCES submissions(id) ON DELETE RESTRICT,
     changed_by     INTEGER NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
@@ -119,23 +119,31 @@ CREATE TABLE audit_log (
 );
 
 
-CREATE TRIGGER audit_log_no_update BEFORE UPDATE ON audit_log
+CREATE TRIGGER IF NOT EXISTS audit_log_no_update BEFORE UPDATE ON audit_log
 BEGIN
     SELECT RAISE(ABORT, 'audit_log is append-only');
 END;
 
-CREATE TRIGGER audit_log_no_delete BEFORE DELETE ON audit_log
+CREATE TRIGGER IF NOT EXISTS audit_log_no_delete BEFORE DELETE ON audit_log
 BEGIN
     SELECT RAISE(ABORT, 'audit_log is append-only');
 END;
 
 
 -- -------------------------indexes--------------------------------------- 
-CREATE INDEX idx_courses_department        ON courses(department_id);
-CREATE INDEX idx_enrolments_course         ON enrolments(course_id);
-CREATE INDEX idx_course_lecturers_course   ON course_lecturers(course_id);
-CREATE INDEX idx_assignments_course        ON assignments(course_id);
-CREATE INDEX idx_extensions_student        ON extensions(student_id);
-CREATE INDEX idx_submissions_assign_status ON submissions(assignment_id, status);
-CREATE INDEX idx_submissions_student       ON submissions(student_id);
-CREATE INDEX idx_audit_submission          ON audit_log(submission_id);
+CREATE INDEX IF NOT EXISTS idx_courses_department        ON courses(department_id);
+CREATE INDEX IF NOT EXISTS idx_enrolments_course         ON enrolments(course_id);
+CREATE INDEX IF NOT EXISTS idx_course_lecturers_course   ON course_lecturers(course_id);
+CREATE INDEX IF NOT EXISTS idx_assignments_course        ON assignments(course_id);
+CREATE INDEX IF NOT EXISTS idx_extensions_student        ON extensions(student_id);
+CREATE INDEX IF NOT EXISTS idx_submissions_assign_status ON submissions(assignment_id, status);
+CREATE INDEX IF NOT EXISTS idx_submissions_student       ON submissions(student_id);
+CREATE INDEX IF NOT EXISTS idx_audit_submission          ON audit_log(submission_id);
+
+
+-- Uploaded submission references are stored separately from submission workflow state.
+CREATE TABLE IF NOT EXISTS submission_files (
+    submission_id INTEGER PRIMARY KEY REFERENCES submissions(id) ON DELETE RESTRICT,
+    file_path TEXT NOT NULL,
+    submitted_at TEXT NOT NULL CHECK (datetime(submitted_at) IS NOT NULL)
+);
