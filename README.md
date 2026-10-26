@@ -43,9 +43,72 @@ ctest --test-dir build-tests --output-on-failure
 
 The existing unit tests cover domain classes and selected repository behavior. The application was built successfully with tests disabled; the full test suite and a complete multi-role end-to-end acceptance run have not been verified as part of this package build.
 
-## Important operational notes
+## Project Structure
 
-- Submission paths are stored as file references; the console does not upload or copy file bytes. In a deployed system, add a managed file-storage layer that validates paths and enforces file-size/type limits.
-- The late penalty used by the console marker is 10% per day late, capped at 100%. The submission service allows up to three days late after the effective deadline; extensions replace the assignment deadline for that student.
-- A lecturer can only mark submissions from courses assigned to them. HOD moderation, approval and release are scoped to the department attached to their HOD profile.
-- This is a local educational console app. Production deployment should add stronger operational controls, backups, password-reset flows, structured logging, and automated integration tests.
+```text
+lms/
+├── .github/
+│   └── workflows/                 # Continuous integration workflows
+├── data/                           # Runtime application data
+│   └── submissions/                # Assignment submission files
+├── db/                             # Database schema and seed data
+├── docs/                           # Project documentation and testing records
+├── src/
+│   ├── common/                     # Shared utilities and validation
+│   ├── domain/                     # Core business entities and domain rules
+│   │   ├── admin/                  # Administrator domain
+│   │   ├── assignment/             # Assignment domain
+│   │   ├── audit_log/              # Audit logging domain
+│   │   ├── course/                 # Course domain
+│   │   ├── department/             # Department domain
+│   │   ├── extension/              # Assignment extension domain
+│   │   ├── head_of_department/     # Head of Department domain
+│   │   ├── late_penalty/           # Late submission penalty strategies
+│   │   ├── lecturer/               # Lecturer domain
+│   │   ├── mark_record/            # Mark records and history
+│   │   ├── permissions/            # Role permissions and access rules
+│   │   ├── student/                # Student domain
+│   │   ├── submission/             # Submission domain
+│   │   └── user/                   # User identity and account domain
+│   ├── menus/                      # Role-specific console menus
+│   │   ├── admin/                  # Administrator menu
+│   │   ├── student/                # Student menu
+│   │   ├── lecturer/               # Lecturer menu
+│   │   └── head_of_department/     # Head of Department menu
+│   ├── presentation/               # Console input and output
+│   ├── repository/                 # Data access abstractions and implementations
+│   │   ├── audit_log/              # Audit log persistence
+│   │   ├── interfaces/             # Repository interfaces
+│   │   ├── mark_record/            # Mark record persistence
+│   │   ├── sqlite/                 # SQLite database infrastructure
+│   │   └── submission/             # Submission persistence
+│   ├── security/                   # Password hashing and security components
+│   ├── service/                    # Application services and workflows
+│   └── main.cpp                    # Application entry point
+├── tests/                          # Automated tests
+│   ├── fakes/                      # Test doubles and fake implementations
+│   ├── integration/                # Integration tests
+│   ├── system/                     # System-level tests
+│   └── unit/                       # Unit tests
+├── third_party/                    # Vendored external dependencies
+│   ├── bcrypt/                     # Password hashing dependency
+│   ├── sqlite3/                    # SQLite database engine
+│   └── SQLiteCpp/                  # C++ SQLite wrapper
+├── .clang-format                   # C++ formatting configuration
+├── .clang-tidy                     # C++ static analysis configuration
+├── .gitignore                      # Git ignore rules
+├── CMakeLists.txt                  # Main CMake build configuration
+├── CMakeLists.txt.backup           # Backup build configuration
+└── README.md                       # Project overview and documentation
+```
+
+### Architecture Overview
+
+- **Domain layer:** Defines the core business entities and rules.
+- **Service layer:** Coordinates application operations and business workflows.
+- **Repository layer:** Handles database access and persistence.
+- **Menus and presentation:** Provide role-specific navigation and console interaction.
+- **Security layer:** Provides password hashing functionality.
+- **Database:** Stores application records using SQLite.
+- **Tests:** Organize unit, integration, and system-level verification.
+- **Third-party dependencies:** Contain the external libraries used by the project.
