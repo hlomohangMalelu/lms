@@ -123,13 +123,16 @@ void hodMenu(
 ) {
     for (;;) {
         std::cout
-            << "\nHEAD OF DEPARTMENT MENU\n"
+            <<"\n--------------------------------------\n"
+            << "      HEAD OF DEPARTMENT MENU\n"
+            <<"--------------------------------------\n"
             << "1 View marked submissions\n"
             << "2 Moderate mark\n"
             << "3 Approve mark\n"
             << "4 Release mark\n"
             << "5 Change password\n"
-            << "0 Logout\n";
+            << "0 Logout\n"
+            <<"--------------------------------------\n";
 
         const auto choice = prompt("Choice: ");
 

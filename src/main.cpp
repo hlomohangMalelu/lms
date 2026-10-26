@@ -116,9 +116,12 @@ int main() {
 
         for (;;) {
             std::cout
-                << "\nMODERATED LEARNING MANAGEMENT SYSTEM\n"
+                <<"\n-------------------------------------------\n"
+                << "    MODERATED LEARNING MANAGEMENT SYSTEM    "
+                <<"\n-------------------------------------------\n"
                 << "1 Login\n"
-                << "0 Exit\n";
+                << "0 Exit\n"
+                <<"-------------------------------------------\n";
 
             const auto choice = prompt("Choice: ");
 

@@ -123,14 +123,17 @@ void lecturerMenu(
 ) {
     for (;;) {
         std::cout
-            << "\nLECTURER MENU\n"
+            <<"\n--------------------------------------\n"
+            << "           LECTURER MENU\n"
+            <<"--------------------------------------\n"
             << "1 My courses\n"
             << "2 Create assignment\n"
             << "3 View submissions\n"
             << "4 Mark submission\n"
             << "5 Grant extension\n"
             << "6 Change password\n"
-            << "0 Logout\n";
+            << "0 Logout\n"
+            <<"--------------------------------------\n";
 
         const auto choice = prompt("Choice: ");
 

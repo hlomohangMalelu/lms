@@ -125,12 +125,15 @@ void studentMenu(
 
     for (;;) {
         std::cout
-            << "\nSTUDENT MENU\n"
+            <<"\n--------------------------------------\n"
+            << "           STUDENT MENU                 "
+            <<"\n--------------------------------------\n"
             << "1 My courses and assignments\n"
             << "2 Submit/resubmit assignment\n"
             << "3 View released marks and feedback\n"
             << "4 Change password\n"
-            << "0 Logout\n";
+            << "0 Logout\n"
+            <<"--------------------------------------\n";
 
         const auto choice = prompt("Choice: ");
 
