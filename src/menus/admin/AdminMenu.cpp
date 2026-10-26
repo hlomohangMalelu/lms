@@ -125,7 +125,9 @@ void adminMenu(
 
     for (;;) {
         std::cout
-            << "\nADMIN MENU\n"
+            <<"\n--------------------------------------\n"
+            << "            ADMIN MENU\n"
+            <<"--------------------------------------\n"
             << "1 Create department\n"
             << "2 Create course\n"
             << "3 Create user\n"
@@ -138,7 +140,8 @@ void adminMenu(
             << "10 List users\n"
             << "11 List courses\n"
             << "12 Change password\n"
-            << "0 Logout\n";
+            << "0 Logout\n"
+            <<"--------------------------------------\n";
 
         const auto choice = prompt("Choice: ");
 
