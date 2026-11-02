@@ -14,6 +14,7 @@ public:
     bool isAdministrator(long long userId) const;
     bool canSubmitAssignment(long long studentId, long long assignmentId) const;
     bool canGrantExtension(long long lecturerId, long long assignmentId, long long studentId) const;
+    bool canGrantClassExtension(long long lecturerId, long long assignmentId) const;
     bool canMarkSubmission(long long lecturerId, long long submissionId) const;
     bool canModerateSubmission(long long hodId, long long submissionId) const;
 
@@ -21,6 +22,7 @@ public:
     void requireAdministrator(long long userId) const override;
     void requireCanSubmit(long long studentId, long long assignmentId) const override;
     void requireCanGrantExtension(long long lecturerId, long long assignmentId, long long studentId) const override;
+    void requireCanGrantClassExtension(long long lecturerId, long long assignmentId) const override;
     void requireCanMark(long long lecturerId, long long submissionId) const override;
     void requireCanModerate(long long hodId, long long submissionId) const override;
 
