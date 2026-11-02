@@ -41,7 +41,6 @@ cmake --build build-tests -j$(nproc)
 ctest --test-dir build-tests --output-on-failure
 ```
 
-The existing unit tests cover domain classes and selected repository behavior. The application was built successfully with tests disabled; the full test suite and a complete multi-role end-to-end acceptance run have not been verified as part of this package build.
 
 ## Project Structure
 
