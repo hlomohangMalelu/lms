@@ -1,5 +1,6 @@
 #include "repository/sqlite/SQLiteDatabase.h"
 #include "security/BcryptPasswordHasher.h"
+#include "security/SQLiteAuthorizationPolicy.h"
 #include "service/AdminService.h"
 #include "service/SubmissionService.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -121,7 +122,8 @@ void adminMenu(
     const AuthenticatedUser& user,
     lms::security::BcryptPasswordHasher& hasher
 ) {
-    lms::service::AdminService admin(db);
+    lms::security::SQLiteAuthorizationPolicy authorization(db);
+    lms::service::AdminService admin(db, authorization, user.id);
 
     for (;;) {
         std::cout
@@ -152,14 +154,14 @@ void adminMenu(
 
             if (choice == "1") {
                 std::cout
-                    << "Created department id "
+                    << "Created department id \n"
                     << admin.createDepartment(
                            prompt("Department name: ")
                        )
                     << '\n';
             } else if (choice == "2") {
                 std::cout
-                    << "Created course id "
+                    << "Created course id \n"
                     << admin.createCourse(
                            prompt("Course code: "),
                            prompt("Course title: "),
@@ -184,7 +186,7 @@ void adminMenu(
                 }
 
                 std::cout
-                    << "Created user id "
+                    << "Created user id \n"
                     << admin.createUser(
                            username,
                            hasher.hash(password),
