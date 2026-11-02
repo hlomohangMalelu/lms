@@ -166,3 +166,22 @@ For deadline and extension tests, use a controllable clock or fixed timestamps w
 ## Integration test execution
 
 The SQLite-backed service/repository workflow integration suite and its executed results are recorded in `integration-test-execution.md`. The tests use the actual schema and cover submission, extension, marking, moderation, approval, release, authorization denial, and transaction rollback.
+
+
+## 9. CR1 regression cases (v1.1)
+
+| Test ID | Level | Scenario | Expected result |
+|---|---|---|---|
+| UT-CR1-01 | Unit | Grant valid class extension | One class extension is stored for the assignment |
+| UT-CR1-02 | Unit | Empty deadline or blank reason | Validation rejects the request |
+| UT-CR1-03 | Unit | Update an existing class extension | Unique assignment row is updated, not duplicated |
+| UT-CR1-04 | Unit | Individual and class extensions coexist | Individual extension takes precedence |
+| IT-CR1-01 | Integration | Two enrolled students submit before the class deadline | Both submissions are on time under the single class extension |
+| IT-CR1-02 | Integration | Student assignment-list query with individual override and class default | Both original and effective deadlines are returned; individual override applies only to its student |
+| IT-CR1-03 | Integration | Student has no individual or class extension | Effective deadline equals original deadline |
+| IT-CR1-04 | Integration/security | Unassigned or inactive lecturer attempts class extension | Authorization rejects grant and leaves no class-extension row |
+| ST-CR1-01 | System | Lecturer uses whole-class extension menu option | Class-wide extension is granted for an assignment in the lecturer's course |
+| ST-CR1-02 | System | Student opens assignment list | Original and effective deadlines are visible and correct |
+| REG-CR1-01 | Regression | Run all existing tests plus CR1 cases | No regression; record actual test count, failures and CI evidence |
+
+The new integration tests exercise the same deadline-selection SQL used by the student assignment-list menu. The console rendering still requires the manual ST-CR1-02 system check. Do not mark these cases passed until they have actually run in the local and CI environments.
