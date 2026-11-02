@@ -5,7 +5,7 @@
 3. Create assignments for the relevant course, supplying a title/instructions, deadline and maximum mark.
 4. View submissions for your courses and inspect the submitted file reference.
 5. Mark each submission with a mark, feedback and the required audit reason.
-6. Grant or update an extension when appropriate.
+6. Grant or update an individual extension, or choose the whole-class extension option to apply one deadline to all students enrolled in the assignment course. Supply the new deadline and a reason.
 7. Submit marks through the moderation workflow. A head of department must moderate/approve and release marks before students can see them.
 8. Choose the password-change option when needed; choose logout to end the session.
 

@@ -30,3 +30,22 @@ This release is a local console application using a local SQLite database. See `
 ## Upgrade / data handling
 
 Back up `data/lms.db` and submission data before replacing the executable or schema. Do not delete the data directory during an application-only upgrade. No automated database migration mechanism is documented for this release; review schema changes before upgrading an existing installation.
+
+
+## Moderated LMS v1.1 – Maintenance release
+
+### Change request CR1
+
+- Lecturers can grant a deadline extension to the whole class for an assignment in a course they teach.
+- Students see both the original assignment deadline and the effective deadline on their assignment list.
+- An individual student extension takes precedence over a class-wide extension; if neither exists, the original assignment deadline applies.
+- Existing individual extension behaviour is retained.
+
+### Database change
+
+- Added `class_extensions`, with one class-wide extension per assignment. Existing `extensions` rows are retained and continue to represent individual extensions.
+
+### Testing
+
+- Added unit and integration test cases for class-wide extensions, deadline precedence and validation.
+- Full regression results are pending execution with the complete GoogleTest dependency available.
