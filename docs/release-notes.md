@@ -60,4 +60,4 @@ Back up `data/lms.db` and submission data before replacing the executable or sch
 - Static analysis: the clang-tidy job completed successfully and uploaded its report. It reported non-fatal findings (including readability/style, magic-number and reference-member checks); review and triage them before treating the report as warning-free.
 - PR [#21](https://github.com/hlomohangMalelu/lms/pull/21) was merged to `main` on 2026-11-02.
 - **Outstanding release gate:** manually demonstrate the lecturer whole-class extension flow and the student assignment-list display (including original/effective deadline values) using the documented acceptance scenarios, then record tester/date/evidence in the system/acceptance execution records. Formal stakeholder sign-off also remains pending as stated in the test plan.
-- **Tag:** `v1.1` has not been created. Create it only after the manual acceptance evidence and sign-off are recorded.
+- **Tag:** `v1.1`
