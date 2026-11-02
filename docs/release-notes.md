@@ -1,6 +1,6 @@
-# Moderated LMS 1.0.0 — Release Notes
+# Moderated LMS v1.0 — Release Notes
 
-**Release status:** Version 1.0.0 documentation baseline
+**Release status:** Version 1.0
 
 ## Included functionality
 
@@ -17,15 +17,15 @@
 
 ## Deployment
 
-This release is a local console application using a local SQLite database. See `docs/deployment/installation-guide.md` and `docs/deployment/deployment-architecture.md`.
+This release is a local console application using a local SQLite database. See `docs/deployment/installation-guide.md`, `docs/deployment/deployment-architecture.md` and the UML deployment diagram (`docs/deployment/deployment-diagram.svg`).
 
 ## Known limitations
 
 - No web or mobile interface.
 - No remote application/API server or multi-site synchronization.
-- Backup and restore are operator-managed.
+- Backup and restore are operator-managed; submission file paths refer to files stored at user-supplied locations.
 - The initial administrator credentials must be changed immediately after first login.
-- Hosted Ubuntu/macOS CI, coverage and static-analysis evidence must be confirmed before declaring the release fully verified.
+- This release does not provide automated database migration or scheduled backup facilities.
 
 ## Upgrade / data handling
 

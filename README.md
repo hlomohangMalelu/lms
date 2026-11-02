@@ -12,7 +12,7 @@ A C++17 console based Moderated Learning Management System
 - **Persistence/security:** parameterized SQL for user-entered values, bcrypt hashes, SQLite foreign keys, unique constraints, append-only audit-log triggers, and transactions around submission updates and console mark/moderation workflows.
 - **Domain/service code:** domain models, repositories, marking/moderation services, and a late-penalty strategy are retained in the project.
 
-## Build and run (Fedora/Linux)
+## Build and run Linux
 
 Dependencies: a C++17 compiler, CMake, make, and SQLite development headers. SQLiteCpp and bcrypt are vendored. GoogleTest is fetched by CMake when tests are enabled, which requires network access unless already cached.
 
@@ -49,8 +49,7 @@ The existing unit tests cover domain classes and selected repository behavior. T
 lms/
 ├── .github/
 │   └── workflows/                 # Continuous integration workflows
-├── data/                           # Runtime application data
-│   └── submissions/                # Assignment submission files
+├── data/                           # Runtime application data (including lms.db)
 ├── db/                             # Database schema and seed data
 ├── docs/                           # Project documentation and testing records
 ├── src/
@@ -115,11 +114,12 @@ lms/
 
 ## Deployment and user documentation
 
-- [Installation guide](docs/deployment/installation-guide.md)
+- [UML deployment diagram ](docs/deployment/deployment-diagram.png)
 - [Deployment architecture](docs/deployment/deployment-architecture.md)
+- [Installation guide](docs/deployment/installation-guide.md)
 - [Administrator guide](docs/user-guides/administrator-guide.md)
 - [Lecturer guide](docs/user-guides/lecturer-guide.md)
 - [Student guide](docs/user-guides/student-guide.md)
 - [Head of Department guide](docs/user-guides/head-of-department-guide.md)
-- [Phase 7 completion checklist](docs/quality/phase7-completion-checklist.md)
 - [Version 1.0 release notes](docs/release-notes.md)
+

@@ -70,7 +70,7 @@ Log in and change this password immediately. Do not reuse the bootstrap password
 
 ## 7. Data, backup and restore
 
-The database is stored at `data/lms.db`. Back up the database while the application is stopped, and also back up any submission files stored under `data/`. Keep backups access-controlled because they contain user and academic records. To restore, stop the application, replace the database and associated submission data from a consistent backup, then restart.
+The database is stored at `data/lms.db`. Back up the database while the application is stopped, and also back up the actual files referenced by the paths recorded in `submission_files` and `submission_attempts`. Those files may be outside the project directory; preserve their directory structure or document how to restore their paths. Keep backups access-controlled because they contain user and academic records. To restore, stop the application, replace the database and restore the referenced submission files to their expected paths from a consistent backup, then restart.
 
 ## 8. Uninstallation
 
