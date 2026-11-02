@@ -55,10 +55,16 @@ if(LMS_ENABLE_SQLITECPP)
         )
     endif()
 
+    # Build SQLiteCpp with its bundled SQLite implementation.
     set(SQLITECPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_INTERNAL_SQLITE OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_FIND_SQLITE ON CACHE BOOL "" FORCE)
+    set(SQLITECPP_INTERNAL_SQLITE ON CACHE BOOL "" FORCE)
+    set(SQLITECPP_FIND_SQLITE OFF CACHE BOOL "" FORCE)
+    set(SQLITE_OMIT_LOAD_EXTENSION OFF CACHE BOOL "" FORCE)
+    set(SQLITECPP_FIND_SQLITE OFF CACHE BOOL "" FORCE)
+
+    # Keep SQLite extension loading enabled.
+    set(SQLITE_OMIT_LOAD_EXTENSION OFF CACHE BOOL "" FORCE)
+
     # The source archive omits SQLiteCpp's optional .github metadata files.
     # They are not needed to compile or link the library.
     set(SQLITECPP_INCLUDE_SCRIPT OFF CACHE BOOL "" FORCE)
@@ -102,4 +108,3 @@ if(LMS_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-
