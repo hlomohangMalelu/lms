@@ -3,12 +3,13 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 
 #include <string>
+#include "security/IAuthorizationPolicy.h"
 
 namespace lms::service {
 
     class AdminService {
         public:
-            explicit AdminService(SQLite::Database& database);
+            AdminService(SQLite::Database& database, const lms::security::IAuthorizationPolicy& authorization, long long actorId);
 
             long long createDepartment(
                 const std::string& name
@@ -58,6 +59,8 @@ namespace lms::service {
 
         private:
             SQLite::Database& database_;
+            const lms::security::IAuthorizationPolicy& authorization_;
+            long long actorId_;
     };
 
 } // namespace lms::service

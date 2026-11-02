@@ -2,12 +2,13 @@
 
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
+#include "security/IAuthorizationPolicy.h"
 
 namespace lms::service {
 
     class SubmissionService {
         public:
-            explicit SubmissionService(SQLite::Database& database);
+            SubmissionService(SQLite::Database& database, const lms::security::IAuthorizationPolicy& authorization);
 
             long long submit(
                 long long assignmentId,
@@ -27,6 +28,7 @@ namespace lms::service {
 
         private:
             SQLite::Database& database_;
+            const lms::security::IAuthorizationPolicy& authorization_;
     };
 
 } // namespace lms::service

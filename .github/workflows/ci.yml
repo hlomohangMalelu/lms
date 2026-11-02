@@ -1,17 +1,117 @@
-name: C++ CI
+
+name: LMS CI
 
 on:
   push:
+    branches: [main, develop, 'feature/**', 'fix/**']
   pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test:
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
       - name: Configure
-        run: cmake -S . -B build -DLMS_ENABLE_VENDOR_DEPS=OFF
+        run: >-
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          -DLMS_BUILD_TESTS=ON -DLMS_ENABLE_SQLITECPP=ON
+          -DLMS_ENABLE_BCRYPT=ON
+
       - name: Build
-        run: cmake --build build --parallel
+        run: cmake --build build --parallel 2
+
       - name: Test
         run: ctest --test-dir build --output-on-failure
+
+  coverage:
+    name: Business logic coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install coverage tool
+        run: python3 -m pip install gcovr
+
+      - name: Configure with coverage
+        run: >-
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          -DLMS_BUILD_TESTS=ON -DLMS_ENABLE_SQLITECPP=ON
+          -DLMS_ENABLE_BCRYPT=ON -DLMS_ENABLE_COVERAGE=ON
+
+      - name: Build and test
+        run: |
+          cmake --build build --parallel 2
+          ctest --test-dir build --output-on-failure
+
+      - name: Generate coverage report (70% minimum)
+        run: |
+          gcovr --root . --filter 'src/domain/' --filter 'src/service/' \
+            --txt build/coverage-summary.txt \
+            --html-details build/coverage.html --fail-under-line 70
+
+      - name: Upload coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lms-coverage-${{ runner.os }}
+          path: build/coverage*
+
+  static-analysis:
+    name: clang-tidy static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install clang-tidy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-tidy
+
+      - name: Configure compile database
+        run: >-
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          -DLMS_BUILD_TESTS=OFF -DLMS_ENABLE_SQLITECPP=ON
+          -DLMS_ENABLE_BCRYPT=ON
+
+      - name: Build application
+        run: cmake --build build --parallel 2
+
+      - name: Run clang-tidy on project source
+        shell: bash
+        run: |
+          set -o pipefail
+          mapfile -t files < <(find src -name '*.cpp' -not -path '*/third_party/*' | sort)
+          clang-tidy -p build "${files[@]}" 2>&1 | tee build/clang-tidy-report.txt
+
+      - name: Upload static analysis report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lms-clang-tidy-report
+          path: build/clang-tidy-report.txt

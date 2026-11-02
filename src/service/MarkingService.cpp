@@ -14,11 +14,13 @@ namespace lms::service {
     MarkingService::MarkingService(
         lms::repository::ISubmissionRepository& submissionRepository,
         lms::repository::IAuditLogRepository& auditLogRepository,
-        const lms::domain::ILatePenaltyStrategy& penaltyStrategy
+        const lms::domain::ILatePenaltyStrategy& penaltyStrategy,
+        const lms::security::IAuthorizationPolicy& authorization
         
     ): submissionRepository_(submissionRepository),
           auditLogRepository_(auditLogRepository),
-          penaltyStrategy_(penaltyStrategy) {}
+          penaltyStrategy_(penaltyStrategy),
+          authorization_(authorization) {}
 
     void MarkingService::markSubmission(
         long long submissionId,
@@ -30,6 +32,7 @@ namespace lms::service {
         const std::string& reason,
         const std::string& changedAt
     ) {
+        authorization_.requireCanMark(lecturerId, submissionId);
         if (!std::isfinite(maxMark) || maxMark <= 0.0) {
             throw std::invalid_argument(
                 "Maximum mark must be a positive finite number."

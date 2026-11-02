@@ -106,11 +106,11 @@ void changePassword(
     lms::service::AuthService& auth,
     const AuthenticatedUser& user
 ) {
-    auth.changePassword(
-        user.id,
-        prompt("Current password: "),
-        prompt("New password (minimum 12 characters): ")
-    );
+    const auto currentPassword = prompt("Current password: ");
+    const auto newPassword =
+        prompt("New password (minimum 12 characters): ");
+
+    auth.changePassword(user.id, currentPassword, newPassword);
 
     std::cout << "Password changed.\n";
 }

@@ -4,13 +4,15 @@
 
 namespace lms::service {
 
-AdminService::AdminService(SQLite::Database& db)
-    : database_(db) {
+AdminService::AdminService(SQLite::Database& db, const lms::security::IAuthorizationPolicy& authorization, long long actorId)
+    : database_(db), authorization_(authorization), actorId_(actorId) {
+    authorization_.requireAdministrator(actorId_);
 }
 
 long long AdminService::createDepartment(
     const std::string& name
 ) {
+    authorization_.requireAdministrator(actorId_);
     if (name.find_first_not_of(" \t\r\n") == std::string::npos) {
         throw std::invalid_argument(
             "Department name is required."
@@ -33,6 +35,7 @@ long long AdminService::createCourse(
     const std::string& title,
     long long departmentId
 ) {
+    authorization_.requireAdministrator(actorId_);
     if (code.empty() || title.empty()) {
         throw std::invalid_argument(
             "Course code and title are required."
@@ -59,6 +62,7 @@ long long AdminService::createUser(
     const std::string& fullName,
     const std::string& role
 ) {
+    authorization_.requireAdministrator(actorId_);
     if (
         username.empty() ||
         passwordHash.empty() ||
@@ -95,6 +99,7 @@ long long AdminService::createUser(
 }
 
 void AdminService::deactivateUser(long long id) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "UPDATE users SET active = 0 WHERE id = ?"
@@ -112,6 +117,7 @@ void AdminService::registerStudent(
     long long id,
     const std::string& no
 ) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "INSERT INTO students(user_id, student_no) "
@@ -134,6 +140,7 @@ void AdminService::registerLecturer(
     long long id,
     const std::string& no
 ) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "INSERT INTO lecturers(user_id, staff_no) "
@@ -156,6 +163,7 @@ void AdminService::assignHeadOfDepartment(
     long long id,
     long long dept
 ) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "INSERT INTO heads_of_department(user_id, department_id) "
@@ -178,6 +186,7 @@ void AdminService::assignLecturerToCourse(
     long long lecturer,
     long long course
 ) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "INSERT INTO course_lecturers(lecturer_id, course_id) "
@@ -193,6 +202,7 @@ void AdminService::enrolStudent(
     long long student,
     long long course
 ) {
+    authorization_.requireAdministrator(actorId_);
     SQLite::Statement query(
         database_,
         "INSERT INTO enrolments(student_id, course_id) "

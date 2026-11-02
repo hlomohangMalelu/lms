@@ -147,3 +147,15 @@ CREATE TABLE IF NOT EXISTS submission_files (
     file_path TEXT NOT NULL,
     submitted_at TEXT NOT NULL CHECK (datetime(submitted_at) IS NOT NULL)
 );
+
+-- Preserve each submission/resubmission attempt while submission_files points to the latest one.
+CREATE TABLE IF NOT EXISTS submission_attempts (
+    id INTEGER PRIMARY KEY,
+    submission_id INTEGER NOT NULL REFERENCES submissions(id) ON DELETE RESTRICT,
+    attempt_number INTEGER NOT NULL CHECK (attempt_number >= 1),
+    file_path TEXT NOT NULL,
+    submitted_at TEXT NOT NULL CHECK (datetime(submitted_at) IS NOT NULL),
+    status TEXT NOT NULL CHECK (status IN ('SUBMITTED', 'LATE')),
+    days_late INTEGER NOT NULL CHECK (days_late >= 0),
+    UNIQUE (submission_id, attempt_number)
+);

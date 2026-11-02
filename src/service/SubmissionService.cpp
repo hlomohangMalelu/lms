@@ -5,8 +5,8 @@
 
 namespace lms::service {
 
-SubmissionService::SubmissionService(SQLite::Database& db)
-    : database_(db) {
+SubmissionService::SubmissionService(SQLite::Database& db, const lms::security::IAuthorizationPolicy& authorization)
+    : database_(db), authorization_(authorization) {
 }
 
 long long SubmissionService::submit(
@@ -15,6 +15,7 @@ long long SubmissionService::submit(
     const std::string& filePath,
     const std::string& submittedAt
 ) {
+    authorization_.requireCanSubmit(studentId, assignmentId);
     if (filePath.empty() || submittedAt.empty()) {
         throw std::invalid_argument(
             "A submission file and timestamp are required."
@@ -77,12 +78,8 @@ long long SubmissionService::submit(
 
     const int daysLate = lateness.getColumn(0).getInt();
 
-    if (daysLate > 3) {
-        throw std::logic_error(
-            "Submission is more than three days late "
-            "and no valid extension applies."
-        );
-    }
+    // Late work is still accepted after three days. The marking strategy
+    // assigns a zero final mark for this equivalence class, as required by UC01.
 
     const std::string status =
         daysLate > 0 ? "LATE" : "SUBMITTED";
@@ -96,9 +93,21 @@ long long SubmissionService::submit(
     existing.bind(2, static_cast<std::int64_t>(studentId));
 
     long long id = 0;
+    int attemptNumber = 1;
 
     if (existing.executeStep()) {
         id = existing.getColumn("id").getInt64();
+
+        SQLite::Statement nextAttempt(
+            database_,
+            "SELECT COALESCE(MAX(attempt_number), 0) + 1 "
+            "FROM submission_attempts WHERE submission_id = ?"
+        );
+        nextAttempt.bind(1, static_cast<std::int64_t>(id));
+        if (!nextAttempt.executeStep()) {
+            throw std::runtime_error("Could not determine the next submission attempt.");
+        }
+        attemptNumber = nextAttempt.getColumn(0).getInt();
 
         const auto existingStatus =
             existing.getColumn("status").getString();
@@ -160,6 +169,18 @@ long long SubmissionService::submit(
         "submitted_at TEXT NOT NULL)"
     );
 
+    database_.exec(
+        "CREATE TABLE IF NOT EXISTS submission_attempts ("
+        "id INTEGER PRIMARY KEY, "
+        "submission_id INTEGER NOT NULL REFERENCES submissions(id) ON DELETE RESTRICT, "
+        "attempt_number INTEGER NOT NULL CHECK (attempt_number >= 1), "
+        "file_path TEXT NOT NULL, "
+        "submitted_at TEXT NOT NULL CHECK (datetime(submitted_at) IS NOT NULL), "
+        "status TEXT NOT NULL CHECK (status IN ('SUBMITTED', 'LATE')), "
+        "days_late INTEGER NOT NULL CHECK (days_late >= 0), "
+        "UNIQUE (submission_id, attempt_number))"
+    );
+
     SQLite::Statement file(
         database_,
         "INSERT INTO submission_files "
@@ -175,6 +196,20 @@ long long SubmissionService::submit(
     file.bind(3, submittedAt);
     file.exec();
 
+    SQLite::Statement attempt(
+        database_,
+        "INSERT INTO submission_attempts "
+        "(submission_id, attempt_number, file_path, submitted_at, status, days_late) "
+        "VALUES (?, ?, ?, ?, ?, ?)"
+    );
+    attempt.bind(1, static_cast<std::int64_t>(id));
+    attempt.bind(2, attemptNumber);
+    attempt.bind(3, filePath);
+    attempt.bind(4, submittedAt);
+    attempt.bind(5, status);
+    attempt.bind(6, daysLate);
+    attempt.exec();
+
     tx.commit();
 
     return id;
@@ -188,6 +223,7 @@ void SubmissionService::grantExtension(
     const std::string& newDeadline,
     const std::string& reason
 ) {
+    authorization_.requireCanGrantExtension(lecturerId, assignmentId, studentId);
     if (
         newDeadline.empty() ||
         reason.find_first_not_of(" \t\r\n") == std::string::npos

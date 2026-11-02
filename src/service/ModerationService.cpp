@@ -15,11 +15,13 @@ namespace lms::service {
 ModerationService::ModerationService(
     lms::repository::ISubmissionRepository& submissionRepository,
     lms::repository::IMarkRecordRepository& markRecordRepository,
-    lms::repository::IAuditLogRepository& auditLogRepository
+    lms::repository::IAuditLogRepository& auditLogRepository,
+    const lms::security::IAuthorizationPolicy& authorization
 )
     : submissionRepository_(submissionRepository),
       markRecordRepository_(markRecordRepository),
-      auditLogRepository_(auditLogRepository) {
+      auditLogRepository_(auditLogRepository),
+      authorization_(authorization) {
 }
 
 void ModerationService::moderateMark(
@@ -33,6 +35,7 @@ void ModerationService::moderateMark(
     const std::string& reason,
     const std::string& changedAt
 ) {
+    authorization_.requireCanModerate(headOfDepartmentId, submissionId);
     if (!std::isfinite(maxMark) || maxMark <= 0.0) {
         throw std::invalid_argument("Maximum mark must be greater than zero.");
     }
@@ -127,6 +130,7 @@ void ModerationService::approveMark(
     long long headOfDepartmentId,
     const std::string& approvedAt
 ) {
+    authorization_.requireCanModerate(headOfDepartmentId, submissionId);
     if (approvedAt.empty()) {
         throw std::invalid_argument("Approval timestamp cannot be empty.");
     }
@@ -167,6 +171,7 @@ void ModerationService::releaseMark(
     long long headOfDepartmentId,
     const std::string& releasedAt
 ) {
+    authorization_.requireCanModerate(headOfDepartmentId, submissionId);
     if (releasedAt.empty()) {
         throw std::invalid_argument("Release timestamp cannot be empty.");
     }

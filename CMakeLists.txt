@@ -14,6 +14,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(LMS_BUILD_TESTS "Build LMS tests" ON)
 option(LMS_ENABLE_SQLITECPP "Build and link vendored SQLiteCpp" ON)
 option(LMS_ENABLE_BCRYPT "Build and link vendored bcrypt" ON)
+option(LMS_ENABLE_COVERAGE "Enable GCC/Clang coverage instrumentation" OFF)
 
 add_library(lms_options INTERFACE)
 
@@ -37,6 +38,11 @@ target_include_directories(lms PRIVATE
 
 target_link_libraries(lms PRIVATE lms_options)
 
+if(LMS_ENABLE_COVERAGE AND NOT MSVC)
+    target_compile_options(lms_options INTERFACE --coverage -O0 -g)
+    target_link_options(lms_options INTERFACE --coverage)
+endif()
+
 if(LMS_ENABLE_SQLITECPP)
     set(SQLITECPP_SOURCE_DIR
         "${CMAKE_CURRENT_SOURCE_DIR}/third_party/SQLiteCpp"
@@ -49,10 +55,16 @@ if(LMS_ENABLE_SQLITECPP)
         )
     endif()
 
+    # Build SQLiteCpp with its bundled SQLite implementation.
     set(SQLITECPP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_INTERNAL_SQLITE OFF CACHE BOOL "" FORCE)
-    set(SQLITECPP_FIND_SQLITE ON CACHE BOOL "" FORCE)
+    set(SQLITECPP_INTERNAL_SQLITE ON CACHE BOOL "" FORCE)
+    set(SQLITECPP_FIND_SQLITE OFF CACHE BOOL "" FORCE)
+    set(SQLITE_OMIT_LOAD_EXTENSION OFF CACHE BOOL "" FORCE)
+    set(SQLITECPP_FIND_SQLITE OFF CACHE BOOL "" FORCE)
+
+    # Keep SQLite extension loading enabled.
+    set(SQLITE_OMIT_LOAD_EXTENSION OFF CACHE BOOL "" FORCE)
+
     # The source archive omits SQLiteCpp's optional .github metadata files.
     # They are not needed to compile or link the library.
     set(SQLITECPP_INCLUDE_SCRIPT OFF CACHE BOOL "" FORCE)
@@ -96,4 +108,3 @@ if(LMS_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
-

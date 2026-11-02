@@ -1,0 +1,22 @@
+ST-01 inactive account and ST-08 startup database failure evidence
+Execution date: 1 November 2026
+Build used: existing GCC-built lms executable from the verified coverage build
+Database: disposable database in /tmp/lms-st-run/data/lms.db
+
+Inactive-account steps:
+1. Start with a fresh database.
+2. Log in as first-run admin (admin / ChangeMe123!).
+3. Create user inactive_test, role STUDENT, initial password TemporaryPass123!.
+4. Select Deactivate user and enter user id 2.
+5. Log out and attempt login as inactive_test with TemporaryPass123!.
+
+Observed result: login rejected with "Login failed. Check credentials or account status." The application returned to the login prompt. No authenticated student menu appeared.
+Outcome: PASS for inactive-account denial.
+
+Database startup failure steps:
+1. Create a temporary working directory containing a regular file named "data" (not a directory).
+2. Run lms from that working directory.
+
+Observed result: process exited with status 1 and printed:
+"Fatal error: filesystem error: cannot create directories: Not a directory [data]"
+Outcome: PARTIAL PASS. Failure was detected and a diagnostic was printed, but this is a fatal startup exit rather than recovery. No false success was reported. A database write-failure during an active session was not tested.

@@ -1,0 +1,23 @@
+Business-logic line coverage (src/domain + src/service)
+Covered executable lines: 587/616
+Line coverage: 95.29%
+
+Per-file results:
+  13/17    76.47%  domain/admin/Admin.cpp
+  22/22   100.00%  domain/assignment/Assignment.cpp
+  22/22   100.00%  domain/audit_log/AuditLog.cpp
+  13/13   100.00%  domain/course/Course.cpp
+   7/7    100.00%  domain/department/Department.cpp
+  19/19   100.00%  domain/extension/Extension.cpp
+  15/19    78.95%  domain/head_of_department/HeadOfDepartment.cpp
+  11/11   100.00%  domain/late_penalty/TenPercentPerDayStrategy.cpp
+  19/22    86.36%  domain/lecturer/Lecturer.cpp
+  25/25   100.00%  domain/mark_record/MarkRecord.cpp
+  14/20    70.00%  domain/student/Student.cpp
+  34/34   100.00%  domain/submission/Submission.cpp
+  10/20    50.00%  domain/user/User.cpp
+ 103/103  100.00%  service/AdminService.cpp
+  41/41   100.00%  service/AuthService.cpp
+  33/33   100.00%  service/MarkingService.cpp
+  82/82   100.00%  service/ModerationService.cpp
+ 104/106   98.11%  service/SubmissionService.cpp

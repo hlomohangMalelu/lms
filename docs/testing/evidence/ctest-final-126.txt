@@ -1,0 +1,258 @@
+Internal ctest changing into directory: /tmp/phase5-final/lms/build-coverage
+Test project /tmp/phase5-final/lms/build-coverage
+        Start   1: WorkflowIntegrationTest.AuthorizedSubmissionMarkModerationApprovalAndReleasePersistEndToEnd
+  1/126 Test   #1: WorkflowIntegrationTest.AuthorizedSubmissionMarkModerationApprovalAndReleasePersistEndToEnd ...   Passed    0.01 sec
+        Start   2: WorkflowIntegrationTest.ExtensionIsPersistedAndUsedWhenCalculatingSubmissionLateness
+  2/126 Test   #2: WorkflowIntegrationTest.ExtensionIsPersistedAndUsedWhenCalculatingSubmissionLateness ..........   Passed    0.01 sec
+        Start   3: WorkflowIntegrationTest.FailedSubmissionFilePersistenceRollsBackSubmissionRow
+  3/126 Test   #3: WorkflowIntegrationTest.FailedSubmissionFilePersistenceRollsBackSubmissionRow .................   Passed    0.01 sec
+        Start   4: WorkflowIntegrationTest.AdministratorSetupPersistsRoleProfilesAndCourseRelationships
+  4/126 Test   #4: WorkflowIntegrationTest.AdministratorSetupPersistsRoleProfilesAndCourseRelationships ..........   Passed    0.01 sec
+        Start   5: WorkflowIntegrationTest.DeadlineBoundaryIsInclusiveAndOneSecondAfterIsLate
+  5/126 Test   #5: WorkflowIntegrationTest.DeadlineBoundaryIsInclusiveAndOneSecondAfterIsLate ....................   Passed    0.01 sec
+        Start   6: WorkflowIntegrationTest.ResubmissionPreservesEarlierAttemptHistory
+  6/126 Test   #6: WorkflowIntegrationTest.ResubmissionPreservesEarlierAttemptHistory ............................   Passed    0.01 sec
+        Start   7: WorkflowIntegrationTest.ExtensionDeadlineIsInclusiveAndOneSecondAfterIsLate
+  7/126 Test   #7: WorkflowIntegrationTest.ExtensionDeadlineIsInclusiveAndOneSecondAfterIsLate ...................   Passed    0.01 sec
+        Start   8: WorkflowIntegrationTest.LoginMeetsTwoSecondTargetWithEightHundredStudentAccounts
+  8/126 Test   #8: WorkflowIntegrationTest.LoginMeetsTwoSecondTargetWithEightHundredStudentAccounts ..............   Passed    0.19 sec
+        Start   9: WorkflowIntegrationTest.FourDaysLateSubmissionIsStoredAndReceivesZeroAfterMarking
+  9/126 Test   #9: WorkflowIntegrationTest.FourDaysLateSubmissionIsStoredAndReceivesZeroAfterMarking .............   Passed    0.01 sec
+        Start  10: WorkflowIntegrationTest.ActiveSessionDatabaseWriteFailureRollsBackAllSubmissionRows
+ 10/126 Test  #10: WorkflowIntegrationTest.ActiveSessionDatabaseWriteFailureRollsBackAllSubmissionRows ...........   Passed    0.01 sec
+        Start  11: WorkflowIntegrationTest.UnauthorizedCrossCourseSubmissionLeavesDatabaseUnchanged
+ 11/126 Test  #11: WorkflowIntegrationTest.UnauthorizedCrossCourseSubmissionLeavesDatabaseUnchanged ..............   Passed    0.01 sec
+        Start  12: AssignmentTest.StoresAssignmentId
+ 12/126 Test  #12: AssignmentTest.StoresAssignmentId .............................................................   Passed    0.01 sec
+        Start  13: AssignmentTest.StoresCourseId
+ 13/126 Test  #13: AssignmentTest.StoresCourseId .................................................................   Passed    0.01 sec
+        Start  14: AssignmentTest.StoresLecturerId
+ 14/126 Test  #14: AssignmentTest.StoresLecturerId ...............................................................   Passed    0.01 sec
+        Start  15: AssignmentTest.StoresTitleAndInstructions
+ 15/126 Test  #15: AssignmentTest.StoresTitleAndInstructions .....................................................   Passed    0.01 sec
+        Start  16: AssignmentTest.StoresDeadlineAndMaximumMark
+ 16/126 Test  #16: AssignmentTest.StoresDeadlineAndMaximumMark ...................................................   Passed    0.01 sec
+        Start  17: AuditLogTest.StoresIdentifiers
+ 17/126 Test  #17: AuditLogTest.StoresIdentifiers ................................................................   Passed    0.00 sec
+        Start  18: AuditLogTest.StoresTimestampAndReason
+ 18/126 Test  #18: AuditLogTest.StoresTimestampAndReason .........................................................   Passed    0.01 sec
+        Start  19: AuditLogTest.FirstMarkHasNoOldValue
+ 19/126 Test  #19: AuditLogTest.FirstMarkHasNoOldValue ...........................................................   Passed    0.01 sec
+        Start  20: AuditLogTest.StoresPreviousAndUpdatedMarks
+ 20/126 Test  #20: AuditLogTest.StoresPreviousAndUpdatedMarks ....................................................   Passed    0.01 sec
+        Start  21: CourseTest.StoresCourseId
+ 21/126 Test  #21: CourseTest.StoresCourseId .....................................................................   Passed    0.00 sec
+        Start  22: CourseTest.StoresCourseCode
+ 22/126 Test  #22: CourseTest.StoresCourseCode ...................................................................   Passed    0.01 sec
+        Start  23: CourseTest.StoresCourseTitle
+ 23/126 Test  #23: CourseTest.StoresCourseTitle ..................................................................   Passed    0.01 sec
+        Start  24: CourseTest.StoresDepartmentId
+ 24/126 Test  #24: CourseTest.StoresDepartmentId .................................................................   Passed    0.01 sec
+        Start  25: DepartmentTest.StoresDepartmentId
+ 25/126 Test  #25: DepartmentTest.StoresDepartmentId .............................................................   Passed    0.01 sec
+        Start  26: DepartmentTest.StoresDepartmentName
+ 26/126 Test  #26: DepartmentTest.StoresDepartmentName ...........................................................   Passed    0.01 sec
+        Start  27: DepartmentTest.StoresDifferentDepartmentsIndependently
+ 27/126 Test  #27: DepartmentTest.StoresDifferentDepartmentsIndependently ........................................   Passed    0.01 sec
+        Start  28: ExtensionTest.StoresExtensionAndRelatedIdentifiers
+ 28/126 Test  #28: ExtensionTest.StoresExtensionAndRelatedIdentifiers ............................................   Passed    0.01 sec
+        Start  29: ExtensionTest.StoresNewDeadline
+ 29/126 Test  #29: ExtensionTest.StoresNewDeadline ...............................................................   Passed    0.01 sec
+        Start  30: ExtensionTest.StoresReason
+ 30/126 Test  #30: ExtensionTest.StoresReason ....................................................................   Passed    0.00 sec
+        Start  31: MarkRecordTest.StoresRecordAndSubmissionIdentifiers
+ 31/126 Test  #31: MarkRecordTest.StoresRecordAndSubmissionIdentifiers ...........................................   Passed    0.00 sec
+        Start  32: MarkRecordTest.NewRecordHasNoModerationOrApprovalDetails
+ 32/126 Test  #32: MarkRecordTest.NewRecordHasNoModerationOrApprovalDetails ......................................   Passed    0.01 sec
+        Start  33: MarkRecordTest.StoresModerationDetails
+ 33/126 Test  #33: MarkRecordTest.StoresModerationDetails ........................................................   Passed    0.00 sec
+        Start  34: MarkRecordTest.StoresApprovalDetails
+ 34/126 Test  #34: MarkRecordTest.StoresApprovalDetails ..........................................................   Passed    0.00 sec
+        Start  35: SubmissionTest.StoresSubmissionIdentifiers
+ 35/126 Test  #35: SubmissionTest.StoresSubmissionIdentifiers ....................................................   Passed    0.00 sec
+        Start  36: SubmissionTest.StoresStatusAndLatePenalty
+ 36/126 Test  #36: SubmissionTest.StoresStatusAndLatePenalty .....................................................   Passed    0.00 sec
+        Start  37: SubmissionTest.UnmarkedSubmissionHasNoMarks
+ 37/126 Test  #37: SubmissionTest.UnmarkedSubmissionHasNoMarks ...................................................   Passed    0.01 sec
+        Start  38: SubmissionTest.StoresMarksAndFeedback
+ 38/126 Test  #38: SubmissionTest.StoresMarksAndFeedback .........................................................   Passed    0.01 sec
+        Start  39: SubmissionTest.StoresMarkReleaseInformation
+ 39/126 Test  #39: SubmissionTest.StoresMarkReleaseInformation ...................................................   Passed    0.01 sec
+        Start  40: TenPercentPerDayStrategyTest.DoesNotPenaliseOnTimeSubmission
+ 40/126 Test  #40: TenPercentPerDayStrategyTest.DoesNotPenaliseOnTimeSubmission ..................................   Passed    0.00 sec
+        Start  41: TenPercentPerDayStrategyTest.DeductsTenPercentPerLateDay
+ 41/126 Test  #41: TenPercentPerDayStrategyTest.DeductsTenPercentPerLateDay ......................................   Passed    0.00 sec
+        Start  42: TenPercentPerDayStrategyTest.GivesZeroAfterThreeDaysLate
+ 42/126 Test  #42: TenPercentPerDayStrategyTest.GivesZeroAfterThreeDaysLate ......................................   Passed    0.00 sec
+        Start  43: TenPercentPerDayStrategyTest.DoesNotReturnNegativeMark
+ 43/126 Test  #43: TenPercentPerDayStrategyTest.DoesNotReturnNegativeMark ........................................   Passed    0.01 sec
+        Start  44: TenPercentPerDayStrategyTest.RejectsInvalidMaximumMark
+ 44/126 Test  #44: TenPercentPerDayStrategyTest.RejectsInvalidMaximumMark ........................................   Passed    0.00 sec
+        Start  45: TenPercentPerDayStrategyTest.RejectsRawMarkAboveMaximum
+ 45/126 Test  #45: TenPercentPerDayStrategyTest.RejectsRawMarkAboveMaximum .......................................   Passed    0.01 sec
+        Start  46: TenPercentPerDayStrategyTest.RejectsNegativeDaysLate
+ 46/126 Test  #46: TenPercentPerDayStrategyTest.RejectsNegativeDaysLate ..........................................   Passed    0.00 sec
+        Start  47: StudentTest.ReturnsStudentRole
+ 47/126 Test  #47: StudentTest.ReturnsStudentRole ................................................................   Passed    0.01 sec
+        Start  48: StudentTest.AllowsViewingEnrolledCourses
+ 48/126 Test  #48: StudentTest.AllowsViewingEnrolledCourses ......................................................   Passed    0.01 sec
+        Start  49: StudentTest.InactiveStudentHasNoPermissions
+ 49/126 Test  #49: StudentTest.InactiveStudentHasNoPermissions ...................................................   Passed    0.00 sec
+        Start  50: LecturerTest.ReturnsLecturerRole
+ 50/126 Test  #50: LecturerTest.ReturnsLecturerRole ..............................................................   Passed    0.01 sec
+        Start  51: LecturerTest.AllowsMarkingSubmissions
+ 51/126 Test  #51: LecturerTest.AllowsMarkingSubmissions .........................................................   Passed    0.00 sec
+        Start  52: HeadOfDepartmentTest.ReturnsCorrectRole
+ 52/126 Test  #52: HeadOfDepartmentTest.ReturnsCorrectRole .......................................................   Passed    0.01 sec
+        Start  53: HeadOfDepartmentTest.AllowsModeratingMarks
+ 53/126 Test  #53: HeadOfDepartmentTest.AllowsModeratingMarks ....................................................   Passed    0.00 sec
+        Start  54: AdminTest.ReturnsCorrectRole
+ 54/126 Test  #54: AdminTest.ReturnsCorrectRole ..................................................................   Passed    0.00 sec
+        Start  55: AdminTest.AllowsManagingUsers
+ 55/126 Test  #55: AdminTest.AllowsManagingUsers .................................................................   Passed    0.00 sec
+        Start  56: UserPolymorphismTest.DifferentRolesUseSameUserInterface
+ 56/126 Test  #56: UserPolymorphismTest.DifferentRolesUseSameUserInterface .......................................   Passed    0.01 sec
+        Start  57: SQLiteAuditLogRepositoryTest.SavesFirstMarkWithNullOldValue
+ 57/126 Test  #57: SQLiteAuditLogRepositoryTest.SavesFirstMarkWithNullOldValue ...................................   Passed    0.01 sec
+        Start  58: SQLiteAuditLogRepositoryTest.SavesMarkChangeWithOldAndNewValues
+ 58/126 Test  #58: SQLiteAuditLogRepositoryTest.SavesMarkChangeWithOldAndNewValues ...............................   Passed    0.01 sec
+        Start  59: SQLiteSubmissionRepositoryTest.SavesAndRetrievesSubmission
+ 59/126 Test  #59: SQLiteSubmissionRepositoryTest.SavesAndRetrievesSubmission ....................................   Passed    0.01 sec
+        Start  60: SQLiteSubmissionRepositoryTest.SavesAndRetrievesMarkedSubmission
+ 60/126 Test  #60: SQLiteSubmissionRepositoryTest.SavesAndRetrievesMarkedSubmission ..............................   Passed    0.01 sec
+        Start  61: SQLiteSubmissionRepositoryTest.UpdatesExistingSubmission
+ 61/126 Test  #61: SQLiteSubmissionRepositoryTest.UpdatesExistingSubmission ......................................   Passed    0.01 sec
+        Start  62: SQLiteSubmissionRepositoryTest.ThrowsWhenSubmissionDoesNotExist
+ 62/126 Test  #62: SQLiteSubmissionRepositoryTest.ThrowsWhenSubmissionDoesNotExist ...............................   Passed    0.00 sec
+        Start  63: SQLiteSubmissionRepositoryTest.ThrowsWhenUpdatingMissingSubmission
+ 63/126 Test  #63: SQLiteSubmissionRepositoryTest.ThrowsWhenUpdatingMissingSubmission ............................   Passed    0.01 sec
+        Start  64: SecurityDatabaseTest.UnenrolledStudentCannotSubmitAndNoDatabaseChanges
+ 64/126 Test  #64: SecurityDatabaseTest.UnenrolledStudentCannotSubmitAndNoDatabaseChanges ........................   Passed    0.01 sec
+        Start  65: SecurityDatabaseTest.InactiveStudentCannotSubmitAndNoDatabaseChanges
+ 65/126 Test  #65: SecurityDatabaseTest.InactiveStudentCannotSubmitAndNoDatabaseChanges ..........................   Passed    0.01 sec
+        Start  66: SecurityDatabaseTest.LecturerCannotMarkOutsideAssignedCourseOrWhenInactive
+ 66/126 Test  #66: SecurityDatabaseTest.LecturerCannotMarkOutsideAssignedCourseOrWhenInactive ....................   Passed    0.01 sec
+        Start  67: SecurityDatabaseTest.UnassignedLecturerCannotGrantExtensionAndNoRowsChange
+ 67/126 Test  #67: SecurityDatabaseTest.UnassignedLecturerCannotGrantExtensionAndNoRowsChange ....................   Passed    0.01 sec
+        Start  68: SecurityDatabaseTest.DeniedMarkingDoesNotReadOrWriteRepositories
+ 68/126 Test  #68: SecurityDatabaseTest.DeniedMarkingDoesNotReadOrWriteRepositories ..............................   Passed    0.01 sec
+        Start  69: SecurityDatabaseTest.DeniedModerationDoesNotReadOrWriteRepositories
+ 69/126 Test  #69: SecurityDatabaseTest.DeniedModerationDoesNotReadOrWriteRepositories ...........................   Passed    0.01 sec
+        Start  70: SecurityDatabaseTest.HoDCannotModerateOutsideDepartment
+ 70/126 Test  #70: SecurityDatabaseTest.HoDCannotModerateOutsideDepartment .......................................   Passed    0.01 sec
+        Start  71: SecurityDatabaseTest.InactiveAdminAndNonAdminCannotConstructAdminService
+ 71/126 Test  #71: SecurityDatabaseTest.InactiveAdminAndNonAdminCannotConstructAdminService ......................   Passed    0.01 sec
+        Start  72: SecurityDatabaseTest.AssignedActorsAndActiveAdminAreAllowed
+ 72/126 Test  #72: SecurityDatabaseTest.AssignedActorsAndActiveAdminAreAllowed ...................................   Passed    0.01 sec
+        Start  73: AdminServiceTest.CreatesDepartmentAndRejectsBlankName
+ 73/126 Test  #73: AdminServiceTest.CreatesDepartmentAndRejectsBlankName .........................................   Passed    0.01 sec
+        Start  74: AdminServiceTest.CreatesCourseAndRejectsMissingFields
+ 74/126 Test  #74: AdminServiceTest.CreatesCourseAndRejectsMissingFields .........................................   Passed    0.01 sec
+        Start  75: AdminServiceTest.CreatesUsersForAllSupportedRoles
+ 75/126 Test  #75: AdminServiceTest.CreatesUsersForAllSupportedRoles .............................................   Passed    0.01 sec
+        Start  76: AdminServiceTest.RejectsMissingUserFieldsAndUnsupportedRole
+ 76/126 Test  #76: AdminServiceTest.RejectsMissingUserFieldsAndUnsupportedRole ...................................   Passed    0.01 sec
+        Start  77: AdminServiceTest.DeactivatesExistingUserAndRejectsUnknownId
+ 77/126 Test  #77: AdminServiceTest.DeactivatesExistingUserAndRejectsUnknownId ...................................   Passed    0.01 sec
+        Start  78: AdminServiceTest.RegistersStudentOnlyForStudentRole
+ 78/126 Test  #78: AdminServiceTest.RegistersStudentOnlyForStudentRole ...........................................   Passed    0.01 sec
+        Start  79: AdminServiceTest.RegistersLecturerOnlyForLecturerRole
+ 79/126 Test  #79: AdminServiceTest.RegistersLecturerOnlyForLecturerRole .........................................   Passed    0.01 sec
+        Start  80: AdminServiceTest.AssignsHeadOfDepartmentOnlyToHod
+ 80/126 Test  #80: AdminServiceTest.AssignsHeadOfDepartmentOnlyToHod .............................................   Passed    0.01 sec
+        Start  81: AdminServiceTest.AssignsLecturerToCourseAndEnrolsStudent
+ 81/126 Test  #81: AdminServiceTest.AssignsLecturerToCourseAndEnrolsStudent ......................................   Passed    0.01 sec
+        Start  82: AdminServiceTest.DatabaseConstraintsRejectDuplicateAssociations
+ 82/126 Test  #82: AdminServiceTest.DatabaseConstraintsRejectDuplicateAssociations ...............................   Passed    0.01 sec
+        Start  83: AuthServiceTest.LogsInWithValidCredentials
+ 83/126 Test  #83: AuthServiceTest.LogsInWithValidCredentials ....................................................   Passed    0.01 sec
+        Start  84: AuthServiceTest.UsernameLookupIsCaseInsensitive
+ 84/126 Test  #84: AuthServiceTest.UsernameLookupIsCaseInsensitive ...............................................   Passed    0.00 sec
+        Start  85: AuthServiceTest.RejectsEmptyCredentials
+ 85/126 Test  #85: AuthServiceTest.RejectsEmptyCredentials .......................................................   Passed    0.01 sec
+        Start  86: AuthServiceTest.RejectsUnknownUsername
+ 86/126 Test  #86: AuthServiceTest.RejectsUnknownUsername ........................................................   Passed    0.01 sec
+        Start  87: AuthServiceTest.RejectsIncorrectPassword
+ 87/126 Test  #87: AuthServiceTest.RejectsIncorrectPassword ......................................................   Passed    0.01 sec
+        Start  88: AuthServiceTest.RejectsInactiveAccount
+ 88/126 Test  #88: AuthServiceTest.RejectsInactiveAccount ........................................................   Passed    0.00 sec
+        Start  89: AuthServiceTest.RejectsNewPasswordShorterThanTwelveCharacters
+ 89/126 Test  #89: AuthServiceTest.RejectsNewPasswordShorterThanTwelveCharacters .................................   Passed    0.01 sec
+        Start  90: AuthServiceTest.RejectsIncorrectCurrentPassword
+ 90/126 Test  #90: AuthServiceTest.RejectsIncorrectCurrentPassword ...............................................   Passed    0.01 sec
+        Start  91: AuthServiceTest.ChangesPasswordAndAllowsLoginWithNewPassword
+ 91/126 Test  #91: AuthServiceTest.ChangesPasswordAndAllowsLoginWithNewPassword ..................................   Passed    0.01 sec
+        Start  92: AuthServiceTest.RejectsPasswordChangeForMissingOrInactiveUser
+ 92/126 Test  #92: AuthServiceTest.RejectsPasswordChangeForMissingOrInactiveUser .................................   Passed    0.01 sec
+        Start  93: MarkingServiceTest.AppliesLatePenaltyAndPersistsMarkAndAudit
+ 93/126 Test  #93: MarkingServiceTest.AppliesLatePenaltyAndPersistsMarkAndAudit ..................................   Passed    0.01 sec
+        Start  94: MarkingServiceTest.AcceptsZeroAndMaximumMarks
+ 94/126 Test  #94: MarkingServiceTest.AcceptsZeroAndMaximumMarks .................................................   Passed    0.01 sec
+        Start  95: MarkingServiceTest.RejectsNonPositiveOrNonFiniteMaximum
+ 95/126 Test  #95: MarkingServiceTest.RejectsNonPositiveOrNonFiniteMaximum .......................................   Passed    0.00 sec
+        Start  96: MarkingServiceTest.RejectsRawMarkOutsideRangeOrNonFinite
+ 96/126 Test  #96: MarkingServiceTest.RejectsRawMarkOutsideRangeOrNonFinite ......................................   Passed    0.01 sec
+        Start  97: MarkingServiceTest.RejectsBlankReason
+ 97/126 Test  #97: MarkingServiceTest.RejectsBlankReason .........................................................   Passed    0.00 sec
+        Start  98: MarkingServiceTest.RejectsMissingTimestamp
+ 98/126 Test  #98: MarkingServiceTest.RejectsMissingTimestamp ....................................................   Passed    0.01 sec
+        Start  99: MarkingServiceTest.CannotRemarkReleasedSubmission
+ 99/126 Test  #99: MarkingServiceTest.CannotRemarkReleasedSubmission .............................................   Passed    0.00 sec
+        Start 100: MarkingServiceTest.RecordsPreviousMarkInAuditEntry
+100/126 Test #100: MarkingServiceTest.RecordsPreviousMarkInAuditEntry ............................................   Passed    0.01 sec
+        Start 101: MarkingServiceTest.SavesAuditBeforeUpdatingSubmission
+101/126 Test #101: MarkingServiceTest.SavesAuditBeforeUpdatingSubmission .........................................   Passed    0.00 sec
+        Start 102: ModerationServiceTest.ModeratesMarkAndCreatesAuditAndApprovalRecord
+102/126 Test #102: ModerationServiceTest.ModeratesMarkAndCreatesAuditAndApprovalRecord ...........................   Passed    0.01 sec
+        Start 103: ModerationServiceTest.DoesNotCreateAuditWhenMarkIsUnchanged
+103/126 Test #103: ModerationServiceTest.DoesNotCreateAuditWhenMarkIsUnchanged ...................................   Passed    0.00 sec
+        Start 104: ModerationServiceTest.AllowsRemoderationOfPreviouslyModeratedSubmission
+104/126 Test #104: ModerationServiceTest.AllowsRemoderationOfPreviouslyModeratedSubmission .......................   Passed    0.01 sec
+        Start 105: ModerationServiceTest.RejectsInvalidMarkBoundsAndNonFiniteValues
+105/126 Test #105: ModerationServiceTest.RejectsInvalidMarkBoundsAndNonFiniteValues ..............................   Passed    0.01 sec
+        Start 106: ModerationServiceTest.RejectsBlankReasonNotesAndTimestamp
+106/126 Test #106: ModerationServiceTest.RejectsBlankReasonNotesAndTimestamp .....................................   Passed    0.01 sec
+        Start 107: ModerationServiceTest.RejectsSubmissionNotYetMarked
+107/126 Test #107: ModerationServiceTest.RejectsSubmissionNotYetMarked ...........................................   Passed    0.00 sec
+        Start 108: ModerationServiceTest.RejectsSubmissionWithoutFinalMark
+108/126 Test #108: ModerationServiceTest.RejectsSubmissionWithoutFinalMark .......................................   Passed    0.01 sec
+        Start 109: ModerationServiceTest.ApprovesModeratedMark
+109/126 Test #109: ModerationServiceTest.ApprovesModeratedMark ...................................................   Passed    0.01 sec
+        Start 110: ModerationServiceTest.RejectsApprovalWithMissingTimestampOrWrongState
+110/126 Test #110: ModerationServiceTest.RejectsApprovalWithMissingTimestampOrWrongState .........................   Passed    0.01 sec
+        Start 111: ModerationServiceTest.RejectsApprovalWithoutModerationDecision
+111/126 Test #111: ModerationServiceTest.RejectsApprovalWithoutModerationDecision ................................   Passed    0.01 sec
+        Start 112: ModerationServiceTest.ReleasesApprovedModeratedMark
+112/126 Test #112: ModerationServiceTest.ReleasesApprovedModeratedMark ...........................................   Passed    0.01 sec
+        Start 113: ModerationServiceTest.RejectsReleaseWhenNotApprovedOrNotModerated
+113/126 Test #113: ModerationServiceTest.RejectsReleaseWhenNotApprovedOrNotModerated .............................   Passed    0.01 sec
+        Start 114: ModerationServiceTest.RejectsReleaseWithoutFinalMark
+114/126 Test #114: ModerationServiceTest.RejectsReleaseWithoutFinalMark ..........................................   Passed    0.00 sec
+        Start 115: SubmissionServiceTest.RejectsEmptyFilePathOrTimestamp
+115/126 Test #115: SubmissionServiceTest.RejectsEmptyFilePathOrTimestamp .........................................   Passed    0.01 sec
+        Start 116: SubmissionServiceTest.RejectsUnknownAssignment
+116/126 Test #116: SubmissionServiceTest.RejectsUnknownAssignment ................................................   Passed    0.01 sec
+        Start 117: SubmissionServiceTest.SavesOnTimeSubmissionAndFileReference
+117/126 Test #117: SubmissionServiceTest.SavesOnTimeSubmissionAndFileReference ...................................   Passed    0.01 sec
+        Start 118: SubmissionServiceTest.DeadlineIsInclusiveAtTheExactTimestamp
+118/126 Test #118: SubmissionServiceTest.DeadlineIsInclusiveAtTheExactTimestamp ..................................   Passed    0.01 sec
+        Start 119: SubmissionServiceTest.CalculatesLateDaysAndAllowsThreeDaysLate
+119/126 Test #119: SubmissionServiceTest.CalculatesLateDaysAndAllowsThreeDaysLate ................................   Passed    0.01 sec
+        Start 120: SubmissionServiceTest.AcceptsSubmissionMoreThanThreeDaysLateForZeroMarking
+120/126 Test #120: SubmissionServiceTest.AcceptsSubmissionMoreThanThreeDaysLateForZeroMarking ....................   Passed    0.01 sec
+        Start 121: SubmissionServiceTest.AppliesStudentExtensionWhenCalculatingLateness
+121/126 Test #121: SubmissionServiceTest.AppliesStudentExtensionWhenCalculatingLateness ..........................   Passed    0.01 sec
+        Start 122: SubmissionServiceTest.ResubmissionUpdatesExistingRecordAndFileReference
+122/126 Test #122: SubmissionServiceTest.ResubmissionUpdatesExistingRecordAndFileReference .......................   Passed    0.01 sec
+        Start 123: SubmissionServiceTest.RejectsResubmissionAfterMarkingOrRelease
+123/126 Test #123: SubmissionServiceTest.RejectsResubmissionAfterMarkingOrRelease ................................   Passed    0.01 sec
+        Start 124: SubmissionServiceTest.RejectsExtensionWithMissingDeadlineOrBlankReason
+124/126 Test #124: SubmissionServiceTest.RejectsExtensionWithMissingDeadlineOrBlankReason ........................   Passed    0.01 sec
+        Start 125: SubmissionServiceTest.GrantsAndUpdatesAnExtension
+125/126 Test #125: SubmissionServiceTest.GrantsAndUpdatesAnExtension .............................................   Passed    0.01 sec
+        Start 126: ConsoleWorkflowSystemTest
+126/126 Test #126: ConsoleWorkflowSystemTest .....................................................................   Passed    2.58 sec
+
+100% tests passed, 0 tests failed out of 126
+
+Total Test time (real) =   3.51 sec
