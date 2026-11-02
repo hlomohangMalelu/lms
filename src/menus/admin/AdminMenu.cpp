@@ -154,14 +154,14 @@ void adminMenu(
 
             if (choice == "1") {
                 std::cout
-                    << "Created department id \n"
+                    << "Created department id "
                     << admin.createDepartment(
                            prompt("Department name: ")
                        )
                     << '\n';
             } else if (choice == "2") {
                 std::cout
-                    << "Created course id \n"
+                    << "Created course id "
                     << admin.createCourse(
                            prompt("Course code: "),
                            prompt("Course title: "),
@@ -186,7 +186,7 @@ void adminMenu(
                 }
 
                 std::cout
-                    << "Created user id \n"
+                    << "Created user id "
                     << admin.createUser(
                            username,
                            hasher.hash(password),
