@@ -203,6 +203,82 @@ TEST_F(WorkflowIntegrationTest, ClassExtensionAppliesToEnrolledStudentsAndIsStor
     EXPECT_EQ(scalar("SELECT COUNT(*) FROM submissions WHERE id=" + std::to_string(submissionId) + " AND status='SUBMITTED' AND days_late=0"), 1);
 }
 
+TEST_F(WorkflowIntegrationTest, ClassExtensionAppliesToEveryEnrolledStudent) {
+    lms::service::SubmissionService submissionService(db, authorization);
+
+    // Add a second active student to the assignment's course.
+    db.exec("INSERT INTO users(id, username, password_hash, full_name, role, active) "
+            "VALUES(6, 'student3', 'test-hash', 'Student Three', 'STUDENT', 1)");
+    db.exec("INSERT INTO students(user_id, student_no) VALUES(6, 'S003')");
+    db.exec("INSERT INTO enrolments(student_id, course_id) VALUES(6, 10)");
+
+    submissionService.grantClassExtension(
+        1, 100, 3, "2026-12-12 23:59:00", "Whole class extension");
+
+    const auto first = submissionService.submit(
+        100, 1, "uploads/S001-class.pdf", "2026-12-12 12:00:00");
+    const auto second = submissionService.submit(
+        100, 6, "uploads/S003-class.pdf", "2026-12-12 12:00:00");
+
+    EXPECT_EQ(scalar("SELECT COUNT(*) FROM submissions WHERE id IN (" +
+                     std::to_string(first) + "," + std::to_string(second) +
+                     ") AND status='SUBMITTED' AND days_late=0"), 2);
+    EXPECT_EQ(scalar("SELECT COUNT(*) FROM class_extensions WHERE assignment_id=100"), 1);
+}
+
+TEST_F(WorkflowIntegrationTest, StudentAssignmentListShowsOriginalAndEffectiveDeadlines) {
+    lms::service::SubmissionService submissionService(db, authorization);
+
+    // A second student shares the course-wide extension, while student 1
+    // receives a personal override that takes precedence.
+    db.exec("INSERT INTO users(id, username, password_hash, full_name, role, active) "
+            "VALUES(6, 'student3', 'test-hash', 'Student Three', 'STUDENT', 1)");
+    db.exec("INSERT INTO students(user_id, student_no) VALUES(6, 'S003')");
+    db.exec("INSERT INTO enrolments(student_id, course_id) VALUES(6, 10)");
+
+    submissionService.grantClassExtension(
+        1, 100, 3, "2026-12-12 23:59:00", "Whole class extension");
+    submissionService.grantExtension(
+        2, 100, 1, 3, "2026-12-14 23:59:00", "Individual override");
+
+    // Keep this query aligned with StudentMenu's assignment-list SELECT.
+    const std::string assignmentListSql =
+        "SELECT a.deadline AS original_deadline, "
+        "COALESCE(ie.new_deadline, ce.new_deadline, a.deadline) AS effective_deadline "
+        "FROM enrolments e "
+        "JOIN courses c ON c.id = e.course_id "
+        "LEFT JOIN assignments a ON a.course_id = c.id "
+        "LEFT JOIN class_extensions ce ON ce.assignment_id = a.id "
+        "LEFT JOIN extensions ie ON ie.assignment_id = a.id AND ie.student_id = e.student_id "
+        "WHERE e.student_id = ? AND a.id = 100";
+
+    SQLite::Statement firstStudent(db, assignmentListSql);
+    firstStudent.bind(1, 1);
+    ASSERT_TRUE(firstStudent.executeStep());
+    EXPECT_EQ(firstStudent.getColumn(0).getString(), "2026-12-10 23:59:00");
+    EXPECT_EQ(firstStudent.getColumn(1).getString(), "2026-12-14 23:59:00");
+
+    SQLite::Statement secondStudent(db, assignmentListSql);
+    secondStudent.bind(1, 6);
+    ASSERT_TRUE(secondStudent.executeStep());
+    EXPECT_EQ(secondStudent.getColumn(0).getString(), "2026-12-10 23:59:00");
+    EXPECT_EQ(secondStudent.getColumn(1).getString(), "2026-12-12 23:59:00");
+}
+
+TEST_F(WorkflowIntegrationTest, StudentAssignmentListFallsBackToOriginalDeadline) {
+    SQLite::Statement assignmentList(
+        db,
+        "SELECT a.deadline, COALESCE(ie.new_deadline, ce.new_deadline, a.deadline) "
+        "FROM enrolments e JOIN assignments a ON a.course_id=e.course_id "
+        "LEFT JOIN class_extensions ce ON ce.assignment_id=a.id "
+        "LEFT JOIN extensions ie ON ie.assignment_id=a.id AND ie.student_id=e.student_id "
+        "WHERE e.student_id=? AND a.id=100");
+    assignmentList.bind(1, 1);
+    ASSERT_TRUE(assignmentList.executeStep());
+    EXPECT_EQ(assignmentList.getColumn(0).getString(), "2026-12-10 23:59:00");
+    EXPECT_EQ(assignmentList.getColumn(1).getString(), "2026-12-10 23:59:00");
+}
+
 TEST_F(WorkflowIntegrationTest, ExtensionDeadlineIsInclusiveAndOneSecondAfterIsLate) {
     lms::service::SubmissionService submissionService(db, authorization);
     submissionService.grantExtension(1, 100, 1, 3, "2026-12-12 23:59:00", "Approved extension");

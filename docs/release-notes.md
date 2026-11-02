@@ -31,6 +31,7 @@ This release is a local console application using a local SQLite database. See `
 
 Back up `data/lms.db` and submission data before replacing the executable or schema. Do not delete the data directory during an application-only upgrade. No automated database migration mechanism is documented for this release; review schema changes before upgrading an existing installation.
 
+---
 
 ## Moderated LMS v1.1 – Maintenance release
 
@@ -45,7 +46,9 @@ Back up `data/lms.db` and submission data before replacing the executable or sch
 
 - Added `class_extensions`, with one class-wide extension per assignment. Existing `extensions` rows are retained and continue to represent individual extensions.
 
-### Testing
+### Regression and release status
 
-- Added unit and integration test cases for class-wide extensions, deadline precedence and validation.
-- Full regression results are pending execution with the complete GoogleTest dependency available.
+- Unit and integration test cases cover class-extension persistence, validation, authorization and deadline precedence.
+- The student-facing assignment-list display and multi-student class-extension behaviour must be verified explicitly.
+- **Release gate: pending.** Do not treat this as a completed v1.1 release until the full regression suite, Ubuntu and macOS CI, coverage target, and static analysis have passed and their run links/results are recorded here.
+- **Tag:** `v1.1` is to be created only after those gates pass. No release tag is asserted by this note.
