@@ -5,13 +5,29 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-test-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configure
-        run: cmake -S . -B build -DLMS_ENABLE_VENDOR_DEPS=OFF
+      - name: Configure with tests and coverage
+        run: >-
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          -DLMS_BUILD_TESTS=ON -DLMS_ENABLE_SQLITECPP=ON
+          -DLMS_ENABLE_BCRYPT=ON -DLMS_ENABLE_COVERAGE=ON
       - name: Build
-        run: cmake --build build --parallel
-      - name: Test
+        run: cmake --build build --parallel 2
+      - name: Run tests
         run: ctest --test-dir build --output-on-failure
+      - name: Install gcovr
+        run: python3 -m pip install gcovr
+      - name: Generate business-logic coverage report
+        run: >-
+          gcovr --root . --filter 'src/domain/' --filter 'src/service/'
+          --exclude 'src/domain/.*/.*Test.*' --txt build/coverage-summary.txt
+          --html-details build/coverage.html --fail-under-line 70
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lms-coverage-report
+          path: build/coverage*

@@ -14,6 +14,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(LMS_BUILD_TESTS "Build LMS tests" ON)
 option(LMS_ENABLE_SQLITECPP "Build and link vendored SQLiteCpp" ON)
 option(LMS_ENABLE_BCRYPT "Build and link vendored bcrypt" ON)
+option(LMS_ENABLE_COVERAGE "Enable GCC/Clang coverage instrumentation" OFF)
 
 add_library(lms_options INTERFACE)
 
@@ -36,6 +37,11 @@ target_include_directories(lms PRIVATE
 )
 
 target_link_libraries(lms PRIVATE lms_options)
+
+if(LMS_ENABLE_COVERAGE AND NOT MSVC)
+    target_compile_options(lms_options INTERFACE --coverage -O0 -g)
+    target_link_options(lms_options INTERFACE --coverage)
+endif()
 
 if(LMS_ENABLE_SQLITECPP)
     set(SQLITECPP_SOURCE_DIR
