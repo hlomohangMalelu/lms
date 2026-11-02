@@ -1,6 +1,5 @@
 #include "repository/sqlite/SQLiteDatabase.h"
 #include "security/BcryptPasswordHasher.h"
-#include "security/SQLiteAuthorizationPolicy.h"
 #include "service/AdminService.h"
 #include "service/SubmissionService.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -122,8 +121,7 @@ void adminMenu(
     const AuthenticatedUser& user,
     lms::security::BcryptPasswordHasher& hasher
 ) {
-    lms::security::SQLiteAuthorizationPolicy authorization(db);
-    lms::service::AdminService admin(db, authorization, user.id);
+    lms::service::AdminService admin(db);
 
     for (;;) {
         std::cout

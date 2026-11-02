@@ -1,6 +1,5 @@
 #include "repository/sqlite/SQLiteDatabase.h"
 #include "security/BcryptPasswordHasher.h"
-#include "security/SQLiteAuthorizationPolicy.h"
 #include "service/AdminService.h"
 #include "service/SubmissionService.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -391,17 +390,14 @@ void lecturerMenu(
                     );
                 }
 
-                const int daysLate = scope.getColumn(4).getInt();
-                const double penalty = daysLate > 3
-                    ? 1.0
-                    : static_cast<double>(daysLate) * 0.10;
-
-                // The late penalty is a percentage of the assignment maximum,
-                // not a percentage of the mark awarded to the student.
-                const double finalMark = std::max(
-                    0.0,
-                    mark - (max * penalty)
+                const double penalty = std::min(
+                    1.0,
+                    static_cast<double>(
+                        scope.getColumn(4).getInt()
+                    ) * 0.10
                 );
+
+                const double finalMark = mark * (1.0 - penalty);
 
                 audit.bind(4, finalMark);
                 audit.bind(5, reason);
@@ -470,8 +466,7 @@ void lecturerMenu(
 
                 nextId.executeStep();
 
-                lms::security::SQLiteAuthorizationPolicy authorization(db);
-                lms::service::SubmissionService service(db, authorization);
+                lms::service::SubmissionService service(db);
 
                 service.grantExtension(
                     nextId.getColumn(0).getInt64(),
