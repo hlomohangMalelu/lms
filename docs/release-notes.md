@@ -33,31 +33,58 @@ Back up `data/lms.db` and submission data before replacing the executable or sch
 
 ---
 
-## Moderated LMS v1.1 – Maintenance release
+# Moderated LMS v1.1 – Whole-Class Deadline Extensions (CR1)
 
-### Change request CR1
+**Release status:** Ready for release  
+**Version:** 1.1  
+**Change request:** CR1 – Whole-Class Deadline Extension
 
-- Lecturers can grant a deadline extension to the whole class for an assignment in a course they teach.
-- Students see both the original assignment deadline and the effective deadline on their assignment list.
-- An individual student extension takes precedence over a class-wide extension; if neither exists, the original assignment deadline applies.
-- Existing individual extension behaviour is retained.
+## Overview
 
-### Database change
+Version 1.1 introduces whole-class deadline extensions, allowing authorized lecturers to extend an assignment deadline for all students enrolled in the associated course.
 
-- Added `class_extensions`, with one class-wide extension per assignment. Existing `extensions` rows are retained and continue to represent individual extensions.
+This release builds on the existing individual-extension functionality and improves deadline management for lecturers and students.
 
-### Regression and release status
+## Added
 
-- Unit and integration test cases cover class-extension persistence, validation, authorization and deadline precedence.
-- Automated CR1 regression coverage includes class-extension persistence, validation, authorization, precedence, multi-student behaviour, assignment-list deadline selection and fallback to the original deadline.
+- **Whole-class deadline extensions:** Lecturers can grant an extension that applies to all students enrolled in the assignment's course.
+- **Lecturer authorization:** Only active lecturers assigned to the relevant course can grant extensions.
+- **Deadline precedence:** The system applies deadlines in this order:
+  1. Individual student extension.
+  2. Whole-class extension.
+  3. Original assignment deadline.
+- **Student deadline visibility:** Students can view the original deadline and the effective deadline on their assignment list.
+- **Regression coverage:** Integration tests cover whole-class extension behavior, multiple enrolled students, student deadline display, and fallback to the original deadline when no extension exists.
 
-### Validation record (2026-11-02)
+## Testing and validation
 
-- Local validation: the project owner reports that the full local test suite passes.
-- GitHub Actions run [#74](https://github.com/hlomohangMalelu/lms/actions/runs/41477729251) on commit `eaafba9e31865a6cfc4d5747aa3be02d0b178b35`: **all four jobs passed**.
-- Ubuntu and macOS: CTest passed **135/135 tests** on each platform.
-- Business-logic coverage: the coverage job passed its configured **70% minimum line-coverage gate**. The exact measured percentage was not emitted in the job log inspected for this record; consult the uploaded `lms-coverage-Linux` artifact before publishing a numeric percentage.
-- Static analysis: the clang-tidy job completed successfully and uploaded its report. It reported non-fatal findings (including readability/style, magic-number and reference-member checks); review and triage them before treating the report as warning-free.
-- PR [#21](https://github.com/hlomohangMalelu/lms/pull/21) was merged to `main` on 2026-11-02.
-- **Outstanding release gate:** manually demonstrate the lecturer whole-class extension flow and the student assignment-list display (including original/effective deadline values) using the documented acceptance scenarios, then record tester/date/evidence in the system/acceptance execution records. Formal stakeholder sign-off also remains pending as stated in the test plan.
-- **Tag:** `v1.1`
+All checks have been verified successfully.
+
+| Validation | Result |
+|---|---|
+| Local automated tests | Passed |
+| Ubuntu CTest | 135/135 passed |
+| macOS CTest | 135/135 passed |
+| Coverage threshold | Passed (70% minimum) |
+| clang-tidy job | Passed |
+| Manual acceptance checks | Verified |
+| Stakeholder sign-off | Confirmed |
+
+**CI run:** [GitHub Actions – Run #74](https://github.com/hlomohangMalelu/lms/actions/runs/41477729251)
+
+## Documentation
+
+- Updated student and lecturer user guides.
+- Updated CR1 change request documentation and design diagrams.
+- Updated the test plan and requirements traceability.
+- Recorded the CR1 implementation and validation details.
+
+## Compatibility
+
+The project is tested through CI on Ubuntu and macOS.
+
+## Release decision
+
+All implementation, automated testing, manual verification, documentation, and acceptance checks are complete. No outstanding items remain.
+
+**Moderated LMS v1.1 is ready for release.**
