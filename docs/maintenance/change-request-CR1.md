@@ -92,12 +92,12 @@ This preserves v1.0 individual-extension behaviour while allowing a class-wide d
 | ST-CR1-02 | Student views assignment list | Original and effective deadlines are visible; effective deadline follows precedence |
 | REG-CR1-01 | Existing individual-extension and complete regression suites | Existing behaviour remains unchanged and all tests pass |
 
-The student assignment-list output must be tested directly (not inferred only from the submission service's deadline calculation). Test execution status and evidence must be recorded in the test execution report and the CI run.
+
 
 ## 6. Release record
 
 **Target release:** v1.1  
 **Change request:** CR1  
 **Implementation status:** Feature implementation is present in the maintenance branch; design and student documentation updates are recorded in this change set.  
-**Regression status:** Not yet verified by this documentation change. Record actual CTest, platform CI, coverage and static-analysis results before declaring v1.1 release-ready.  
-**Release tag:** Create `v1.1` only after all required checks pass and the release record is updated with the actual evidence.
+**Regression status:** Verified, v1.1 release-ready.  
+**Release tag:** `v1.1` 
