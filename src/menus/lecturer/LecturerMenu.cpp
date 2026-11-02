@@ -56,51 +56,7 @@ double realNumber(const std::string& label) {
     return result;
 }
 
-std::string now(SQLite::Database& db) {
-    SQLite::Statement query(
-        db,
-        "SELECT strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')"
-    );
 
-    if (!query.executeStep()) {
-        throw std::runtime_error(
-            "Unable to get current time."
-        );
-    }
-
-    return query.getColumn(0).getString();
-}
-
-void list(SQLite::Database& db, const std::string& sql) {
-    SQLite::Statement query(db, sql);
-
-    int rows = 0;
-
-    while (query.executeStep()) {
-        ++rows;
-
-        for (int i = 0; i < query.getColumnCount(); ++i) {
-            if (i) {
-                std::cout << " | ";
-            }
-
-            const auto column = query.getColumn(i);
-
-            std::cout
-                << column.getName()
-                << "="
-                << (column.isNull()
-                        ? "NULL"
-                        : column.getString());
-        }
-
-        std::cout << '\n';
-    }
-
-    if (!rows) {
-        std::cout << "No records found.\n";
-    }
-}
 
 void changePassword(
     SQLite::Database&,

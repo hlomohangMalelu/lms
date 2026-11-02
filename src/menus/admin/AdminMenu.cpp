@@ -41,35 +41,7 @@ long long number(const std::string& label) {
     return result;
 }
 
-double realNumber(const std::string& label) {
-    const auto value = prompt(label);
 
-    std::size_t used = 0;
-    const double result = std::stod(value, &used);
-
-    if (used != value.size() || result < 0.0) {
-        throw std::invalid_argument(
-            "Enter a non-negative number."
-        );
-    }
-
-    return result;
-}
-
-std::string now(SQLite::Database& db) {
-    SQLite::Statement query(
-        db,
-        "SELECT strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')"
-    );
-
-    if (!query.executeStep()) {
-        throw std::runtime_error(
-            "Unable to get current time."
-        );
-    }
-
-    return query.getColumn(0).getString();
-}
 
 void list(SQLite::Database& db, const std::string& sql) {
     SQLite::Statement query(db, sql);
@@ -155,7 +127,7 @@ void adminMenu(
             if (choice == "1") {
                 const auto departmentName = prompt("Department name: ");
                 const auto departmentId = admin.createDepartment(departmentName);
-                std::cout << "Created department id " << departmentId << '\\n';
+                std::cout << "Created department id " << departmentId << '\n';
             } else if (choice == "2") {
                 const auto courseCode = prompt("Course code: ");
                 const auto courseTitle = prompt("Course title: ");
@@ -163,7 +135,7 @@ void adminMenu(
                 const auto courseId = admin.createCourse(
                     courseCode, courseTitle, departmentId
                 );
-                std::cout << "Created course id " << courseId << '\\n';
+                std::cout << "Created course id " << courseId << '\n';
             } else if (choice == "3") {
                 const auto username = prompt("Username: ");
                 const auto name = prompt("Full name: ");
