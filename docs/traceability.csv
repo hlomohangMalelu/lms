@@ -4,9 +4,9 @@ FR-02,UC01-UC04,SQLiteAuthorizationPolicy;AdminService;SubmissionService;Marking
 FR-03,UC-Admin,AdminService,users,IT-04;AT-01,Partial: create/deactivate/view; update not implemented
 FR-04,UC-Admin,AdminService,departments;courses,IT-04;AT-01,Create paths verified; update/delete management not fully demonstrated
 FR-05,UC-Lecturer,main.cpp assignment workflow; Assignment,assignments,ST-05;AT-02,Verified for demonstrated create path
-FR-06,UC-Lecturer,SubmissionService;Extension,extensions;class_extensions,IT-02;IT-07;AT-02;UT-CR1-01;IT-CR1-01,Individual and class-wide extension paths implemented; regression execution pending
+FR-06,UC-Lecturer-IndividualExtension;UC-Lecturer-ClassExtension,SubmissionService;IAuthorizationPolicy;SQLiteAuthorizationPolicy,extensions;class_extensions,UT-CR1-01;UT-CR1-02;UT-CR1-03;UT-CR1-04;IT-CR1-01;IT-CR1-02;IT-CR1-04;ST-CR1-01,Implementation present; full CR1 regression execution pending
 FR-07,UC-Lecturer,MarkingService;AuditLog;TenPercentPerDayStrategy,submissions;audit_log,UT-05;IT-01;ST-05;AT-02,Verified for service and demonstrated console paths
-FR-08,UC-Student,studentMenu;Course;Assignment,courses;enrolments;assignments;extensions;class_extensions,ST-03;AT-04;UT-CR1-02,Assignment list now displays original and effective deadlines; regression execution pending
+FR-08,UC-Student,StudentMenu;Assignment,assignments;extensions;class_extensions,IT-CR1-03;ST-CR1-02;AT-04,Student-facing original/effective deadline display requires explicit regression verification
 FR-09,UC01,SubmissionService;Submission;SubmissionAttempt,submissions;submission_files;submission_attempts,IT-01;IT-09;ST-03;AT-04,Verified for on-time and late submission paths
 FR-10,UC01,SubmissionService;SubmissionAttempt,submissions;submission_files;submission_attempts,UT-04;IT-06;ST-03,Verified: each resubmission attempt retained
 FR-11,UC01-UC03,Submission;MarkingService;ModerationService,submissions,UT-04;UT-05;IT-01;ST-03;ST-05;ST-06,Verified for exercised lifecycle transitions
