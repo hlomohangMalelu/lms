@@ -17,6 +17,14 @@ namespace lms::service {
                 const std::string& submittedAt
             );
 
+            void grantClassExtension(
+                long long extensionId,
+                long long assignmentId,
+                long long lecturerId,
+                const std::string& newDeadline,
+                const std::string& reason
+            );
+
             void grantExtension(
                 long long extensionId,
                 long long assignmentId,

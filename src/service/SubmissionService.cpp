@@ -26,7 +26,10 @@ long long SubmissionService::submit(
 
     SQLite::Statement assignment(
         database_,
-        "SELECT deadline FROM assignments WHERE id = ?"
+        "SELECT a.deadline, "
+        "(SELECT ce.new_deadline FROM class_extensions ce "
+        " WHERE ce.assignment_id = a.id) AS class_deadline "
+        "FROM assignments a WHERE a.id = ?"
     );
     assignment.bind(1, static_cast<std::int64_t>(assignmentId));
 
@@ -35,6 +38,9 @@ long long SubmissionService::submit(
     }
 
     std::string deadline = assignment.getColumn(0).getString();
+    if (!assignment.getColumn(1).isNull()) {
+        deadline = assignment.getColumn(1).getString();
+    }
 
     SQLite::Statement extension(
         database_,
@@ -213,6 +219,41 @@ long long SubmissionService::submit(
     tx.commit();
 
     return id;
+}
+
+void SubmissionService::grantClassExtension(
+    long long extensionId,
+    long long assignmentId,
+    long long lecturerId,
+    const std::string& newDeadline,
+    const std::string& reason
+) {
+    authorization_.requireCanGrantClassExtension(lecturerId, assignmentId);
+    if (
+        newDeadline.empty() ||
+        reason.find_first_not_of(" \t\r\n") == std::string::npos
+    ) {
+        throw std::invalid_argument(
+            "Extension deadline and reason are required."
+        );
+    }
+
+    SQLite::Statement query(
+        database_,
+        "INSERT INTO class_extensions "
+        "(id, assignment_id, granted_by, new_deadline, reason) "
+        "VALUES (?, ?, ?, ?, ?) "
+        "ON CONFLICT(assignment_id) DO UPDATE SET "
+        "granted_by = excluded.granted_by, "
+        "new_deadline = excluded.new_deadline, "
+        "reason = excluded.reason"
+    );
+    query.bind(1, static_cast<std::int64_t>(extensionId));
+    query.bind(2, static_cast<std::int64_t>(assignmentId));
+    query.bind(3, static_cast<std::int64_t>(lecturerId));
+    query.bind(4, newDeadline);
+    query.bind(5, reason);
+    query.exec();
 }
 
 void SubmissionService::grantExtension(
