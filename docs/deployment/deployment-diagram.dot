@@ -1,0 +1,39 @@
+digraph LMSDeployment {
+  graph [
+    rankdir=TB,
+    bgcolor="white",
+    pad="0.35",
+    nodesep="0.55",
+    ranksep="0.65",
+    fontname="DejaVu Sans",
+    label="Moderated LMS — UML Deployment Diagram (v1.0)",
+    labelloc=t,
+    fontsize=20
+  ];
+  node [fontname="DejaVu Sans", fontsize=10, color="#334155", fontcolor="#0f172a"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#475569", fontcolor="#334155", arrowsize=0.8];
+
+  users [shape=plaintext, label="«device»\nSchool user\nAdministrator / Lecturer / HoD / Student"];
+  terminal [shape=box, style="rounded,filled", fillcolor="#eff6ff", label="«executionEnvironment»\nTerminal / Command Prompt\nConsole input and output"];
+
+  subgraph cluster_host {
+    label="«device» Application workstation / school computer";
+    color="#64748b"; style="rounded"; penwidth=1.4; margin=18;
+
+    runtime [shape=box3d, style="filled", fillcolor="#ecfdf5", label="«executionEnvironment»\nC++17 native runtime"];
+    app [shape=component, style="filled", fillcolor="#dbeafe", label="«artifact»\nlms executable\nmain + role menus + services + domain"];
+    libs [shape=component, style="filled", fillcolor="#f1f5f9", label="«artifact» Linked libraries\nSQLiteCpp / SQLite · bcrypt"];
+    db [shape=cylinder, style="filled", fillcolor="#fef3c7", label="«database»\ndata/lms.db\nusers · courses · assignments\nsubmissions · marks · audit log"];
+    paths [shape=folder, style="filled", fillcolor="#fce7f3", label="«artifact references»\nSubmission files at paths supplied\nby users (not copied into a managed\ndata/submissions directory)"];
+    backup [shape=folder, style="filled", fillcolor="#f3e8ff", label="«artifact» Controlled offline backup\nDatabase backup + referenced files"];
+
+    runtime -> app [style=dashed, arrowhead=vee, label="executes"];
+    app -> libs [style=dashed, arrowhead=vee, label="links / calls"];
+    app -> db [dir=both, label="SQL via SQLiteCpp"];
+    app -> paths [dir=both, label="stores / reads file paths"];
+    db -> backup [style=dashed, label="backup when stopped"];
+    paths -> backup [style=dashed, label="include referenced files"];
+  }
+  users -> terminal [label="uses"];
+  terminal -> app [dir=both, label="console interaction"];
+}

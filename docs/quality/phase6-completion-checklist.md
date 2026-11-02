@@ -18,4 +18,3 @@
 4. Complete the checklist for the final commit.
 5. Merge the reviewed branch and create an annotated release tag when the release is ready.
 
-Do not mark hosted CI, static analysis, pull-request review or release tagging complete based only on local files.
