@@ -1,5 +1,6 @@
 #include "repository/sqlite/SQLiteDatabase.h"
 #include "security/BcryptPasswordHasher.h"
+#include "security/SQLiteAuthorizationPolicy.h"
 #include "service/AdminService.h"
 #include "service/SubmissionService.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -106,11 +107,11 @@ void changePassword(
     lms::service::AuthService& auth,
     const AuthenticatedUser& user
 ) {
-    auth.changePassword(
-        user.id,
-        prompt("Current password: "),
-        prompt("New password (minimum 12 characters): ")
-    );
+    const auto currentPassword = prompt("Current password: ");
+    const auto newPassword =
+        prompt("New password (minimum 12 characters): ");
+
+    auth.changePassword(user.id, currentPassword, newPassword);
 
     std::cout << "Password changed.\n";
 }
@@ -121,7 +122,8 @@ void adminMenu(
     const AuthenticatedUser& user,
     lms::security::BcryptPasswordHasher& hasher
 ) {
-    lms::service::AdminService admin(db);
+    lms::security::SQLiteAuthorizationPolicy authorization(db);
+    lms::service::AdminService admin(db, authorization, user.id);
 
     for (;;) {
         std::cout
@@ -151,21 +153,17 @@ void adminMenu(
             }
 
             if (choice == "1") {
-                std::cout
-                    << "Created department id "
-                    << admin.createDepartment(
-                           prompt("Department name: ")
-                       )
-                    << '\n';
+                const auto departmentName = prompt("Department name: ");
+                const auto departmentId = admin.createDepartment(departmentName);
+                std::cout << "Created department id " << departmentId << '\\n';
             } else if (choice == "2") {
-                std::cout
-                    << "Created course id "
-                    << admin.createCourse(
-                           prompt("Course code: "),
-                           prompt("Course title: "),
-                           number("Department id: ")
-                       )
-                    << '\n';
+                const auto courseCode = prompt("Course code: ");
+                const auto courseTitle = prompt("Course title: ");
+                const auto departmentId = number("Department id: ");
+                const auto courseId = admin.createCourse(
+                    courseCode, courseTitle, departmentId
+                );
+                std::cout << "Created course id " << courseId << '\\n';
             } else if (choice == "3") {
                 const auto username = prompt("Username: ");
                 const auto name = prompt("Full name: ");
@@ -193,30 +191,25 @@ void adminMenu(
                        )
                     << '\n';
             } else if (choice == "4") {
-                admin.registerStudent(
-                    number("User id: "),
-                    prompt("Student number: ")
-                );
+                const auto userId = number("User id: ");
+                const auto studentNumber = prompt("Student number: ");
+                admin.registerStudent(userId, studentNumber);
             } else if (choice == "5") {
-                admin.registerLecturer(
-                    number("User id: "),
-                    prompt("Staff number: ")
-                );
+                const auto userId = number("User id: ");
+                const auto staffNumber = prompt("Staff number: ");
+                admin.registerLecturer(userId, staffNumber);
             } else if (choice == "6") {
-                admin.assignHeadOfDepartment(
-                    number("User id: "),
-                    number("Department id: ")
-                );
+                const auto userId = number("User id: ");
+                const auto departmentId = number("Department id: ");
+                admin.assignHeadOfDepartment(userId, departmentId);
             } else if (choice == "7") {
-                admin.assignLecturerToCourse(
-                    number("Lecturer user id: "),
-                    number("Course id: ")
-                );
+                const auto lecturerId = number("Lecturer user id: ");
+                const auto courseId = number("Course id: ");
+                admin.assignLecturerToCourse(lecturerId, courseId);
             } else if (choice == "8") {
-                admin.enrolStudent(
-                    number("Student user id: "),
-                    number("Course id: ")
-                );
+                const auto studentId = number("Student user id: ");
+                const auto courseId = number("Course id: ");
+                admin.enrolStudent(studentId, courseId);
             } else if (choice == "9") {
                 admin.deactivateUser(
                     number("User id to deactivate: ")

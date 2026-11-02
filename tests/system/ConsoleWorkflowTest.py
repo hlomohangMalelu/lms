@@ -45,17 +45,17 @@ def run_console(binary: Path, root: Path, inputs: list[str]) -> subprocess.Compl
 
 def admin_and_assignment_inputs(deadline: str) -> list[str]:
     return [
-        "1", "ChangeMe123!", "admin",  # Login prompts are password, then username.
+        "1", "admin", "ChangeMe123!",  # Username, then password.
         "1", "Computing",               # Create department.
-        "2", "1", "Software Engineering", "CS101",  # Args evaluated right-to-left.
+        "2", "CS101", "Software Engineering", "1",  # Code, title, department id.
         "3", "student1", "Student One", "STUDENT", "StudentPass123!",
-        "4", "S001", "2",             # Register student profile.
-        "8", "1", "2",                # Enrol student in course 1.
+        "4", "2", "S001",             # User id, then student number.
+        "8", "2", "1",                # Student user id, then course id.
         "3", "lecturer1", "Lecturer One", "LECTURER", "LecturerPass123!",
-        "5", "L001", "3",             # Register lecturer profile.
-        "7", "1", "3",                # Assign lecturer 3 to course 1.
+        "5", "3", "L001",             # User id, then staff number.
+        "7", "3", "1",                # Lecturer user id, then course id.
         "0",                             # Admin logout.
-        "1", "LecturerPass123!", "lecturer1",
+        "1", "lecturer1", "LecturerPass123!",
         "2", "1", "Assignment One", "System test assignment", deadline, "100",
         "0",                             # Lecturer logout.
     ]
@@ -81,7 +81,7 @@ def test_active_session_write_failure(binary: Path, project: Path) -> None:
     temporary, root = prepare_workspace(project, reject_file_write=True)
     try:
         inputs = admin_and_assignment_inputs("2099-12-10 23:59:00") + [
-            "1", "StudentPass123!", "student1",
+            "1", "student1", "StudentPass123!",
             "2", "1", "work.pdf",
             "0", "0",
         ]
@@ -113,10 +113,10 @@ def test_one_day_late_penalty_uses_maximum_mark(binary: Path, project: Path) -> 
         # Keep the elapsed interval just below 24 hours so ceiling-to-day logic yields one day.
         deadline = (datetime.now().astimezone() - timedelta(hours=23, minutes=59)).strftime("%Y-%m-%d %H:%M:%S")
         inputs = admin_and_assignment_inputs(deadline) + [
-            "1", "StudentPass123!", "student1",
+            "1", "student1", "StudentPass123!",
             "2", "1", "one-day-late.pdf",
             "0",
-            "1", "LecturerPass123!", "lecturer1",
+            "1", "lecturer1", "LecturerPass123!",
             "4", "1", "80", "One day late", "Penalty basis test",
             "0", "0",
         ]
@@ -143,11 +143,11 @@ def test_late_zero_mark_and_resubmission_history(binary: Path, project: Path) ->
     try:
         deadline = (datetime.now().astimezone() - timedelta(days=4)).strftime("%Y-%m-%d %H:%M:%S")
         inputs = admin_and_assignment_inputs(deadline) + [
-            "1", "StudentPass123!", "student1",
+            "1", "student1", "StudentPass123!",
             "2", "1", "first-attempt.pdf",
             "2", "1", "second-attempt.pdf",
             "0",                             # Student logout.
-            "1", "LecturerPass123!", "lecturer1",
+            "1", "lecturer1", "LecturerPass123!",
             "4", "1", "80", "Late work", "System boundary test",
             "0", "0",
         ]

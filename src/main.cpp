@@ -135,10 +135,9 @@ int main() {
             }
 
             try {
-                const auto user = auth.login(
-                    prompt("Username: "),
-                    prompt("Password: ")
-                );
+                const auto username = prompt("Username: ");
+                const auto password = prompt("Password: ");
+                const auto user = auth.login(username, password);
 
                 if (!user) {
                     std::cout

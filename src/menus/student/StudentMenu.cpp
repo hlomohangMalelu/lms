@@ -1,5 +1,6 @@
 #include "repository/sqlite/SQLiteDatabase.h"
 #include "security/BcryptPasswordHasher.h"
+#include "security/SQLiteAuthorizationPolicy.h"
 #include "service/AdminService.h"
 #include "service/SubmissionService.h"
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -106,11 +107,11 @@ void changePassword(
     lms::service::AuthService& auth,
     const AuthenticatedUser& user
 ) {
-    auth.changePassword(
-        user.id,
-        prompt("Current password: "),
-        prompt("New password (minimum 12 characters): ")
-    );
+    const auto currentPassword = prompt("Current password: ");
+    const auto newPassword =
+        prompt("New password (minimum 12 characters): ");
+
+    auth.changePassword(user.id, currentPassword, newPassword);
 
     std::cout << "Password changed.\n";
 }
@@ -121,7 +122,8 @@ void studentMenu(
     const AuthenticatedUser& user,
     lms::security::BcryptPasswordHasher& hasher
 ) {
-    lms::service::SubmissionService submissions(db);
+    lms::security::SQLiteAuthorizationPolicy authorization(db);
+    lms::service::SubmissionService submissions(db, authorization);
 
     for (;;) {
         std::cout
