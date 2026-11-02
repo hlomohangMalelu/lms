@@ -1,0 +1,14 @@
+C++ source files: 71
+Non-blank, non-comment-leading source lines (approx.): 3835
+Approximate cyclomatic complexity (top 10 detected function bodies):
+   24  src/menus/lecturer/LecturerMenu.cpp:74
+   20  src/menus/head_of_department/HODMenu.cpp:117
+   17  src/menus/student/StudentMenu.cpp:74
+   17  src/menus/admin/AdminMenu.cpp:90
+   13  src/service/ModerationService.cpp:25
+   12  src/service/SubmissionService.cpp:10
+   12  src/main.cpp:95
+   10  src/service/MarkingService.cpp:23
+    9  src/domain/lecturer/Lecturer.cpp:30
+    8  src/service/AdminService.cpp:57
+Note: lexical estimate only; templates, lambdas, macros and nested braces can affect results.

@@ -34,7 +34,7 @@ This record deliberately distinguishes local results from checks that require Gi
 
 - Build: passed (`lms` and `lms_tests`).
 - CTest: **126/126 passed, 0 failed** (including the console workflow test).
-- Metrics: see `code-metrics-2026-11-02.txt` (63 C++ source/header files; approximately 3,438 non-blank, non-comment-leading lines; highest detected complexity estimates are listed there).
+- Metrics: see `code-metrics-2026-11-02.txt` (71 C++ source/header files; approximately 3,835 non-blank, non-comment-leading lines; highest detected complexity estimates are listed there).
 - Static analysis: not executed locally because clang-tidy is not installed. The GitHub Actions static-analysis job is configured but must run on the remote repository before its result can be recorded.
 - Cross-platform run: macOS job is configured but not yet executed; local verification was Linux only.
 
@@ -54,3 +54,14 @@ Follow-up local verification (GNU C++ 14.2.0, CMake 3.31.6):
 - The test run includes startup failure handling, submission transaction rollback, one-day late penalty calculation, and resubmission history / zero-mark behaviour.
 
 This is local Linux verification only. macOS CI and hosted `clang-tidy` results remain pending until the workflow is pushed to GitHub and executed there.
+
+
+### Review of the latest supplied archive
+
+- Application-only CMake configure: passed with tests disabled, vendored SQLiteCpp enabled, and vendored bcrypt enabled.
+- Application build: passed using GNU C++ 14.2.0.
+- Compiler warnings found and corrected: two multi-character newline literals in `AdminMenu.cpp` were changed to ordinary newline character literals; unused menu helper functions were removed.
+- Rebuild after these corrections: passed without compiler warnings in the rebuilt menu translation units.
+- Test configuration from the supplied ZIP: blocked because `third_party/SQLiteCpp/googletest` is an empty directory in the archive. The root `.gitmodules` file references the submodule, but the archive does not contain its checked-out contents. Initialize the submodule in the Git working copy before running tests (`git submodule update --init --recursive`).
+- This archive review does not replace the earlier recorded 126/126 local test result; it means the test suite could not be independently rerun from this ZIP.
+- The code metrics report was regenerated from this archive and is saved as `docs/quality/code-metrics-2026-11-02.txt`.

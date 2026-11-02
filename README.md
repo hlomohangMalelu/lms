@@ -1,6 +1,6 @@
 # Moderated Learning Management System
 
-A C++17 console LMS backed by SQLite/SQLiteCpp and bcrypt password hashing.
+A C++17 console based Moderated Learning Management System
 
 ## Implemented workflows
 
@@ -112,3 +112,14 @@ lms/
 - **Database:** Stores application records using SQLite.
 - **Tests:** Organize unit, integration, and system-level verification.
 - **Third-party dependencies:** Contain the external libraries used by the project.
+
+## Deployment and user documentation
+
+- [Installation guide](docs/deployment/installation-guide.md)
+- [Deployment architecture](docs/deployment/deployment-architecture.md)
+- [Administrator guide](docs/user-guides/administrator-guide.md)
+- [Lecturer guide](docs/user-guides/lecturer-guide.md)
+- [Student guide](docs/user-guides/student-guide.md)
+- [Head of Department guide](docs/user-guides/head-of-department-guide.md)
+- [Phase 7 completion checklist](docs/quality/phase7-completion-checklist.md)
+- [Version 1.0 release notes](docs/release-notes.md)

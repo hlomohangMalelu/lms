@@ -41,20 +41,6 @@ long long number(const std::string& label) {
     return result;
 }
 
-double realNumber(const std::string& label) {
-    const auto value = prompt(label);
-
-    std::size_t used = 0;
-    const double result = std::stod(value, &used);
-
-    if (used != value.size() || result < 0.0) {
-        throw std::invalid_argument(
-            "Enter a non-negative number."
-        );
-    }
-
-    return result;
-}
 
 std::string now(SQLite::Database& db) {
     SQLite::Statement query(
@@ -71,36 +57,6 @@ std::string now(SQLite::Database& db) {
     return query.getColumn(0).getString();
 }
 
-void list(SQLite::Database& db, const std::string& sql) {
-    SQLite::Statement query(db, sql);
-
-    int rows = 0;
-
-    while (query.executeStep()) {
-        ++rows;
-
-        for (int i = 0; i < query.getColumnCount(); ++i) {
-            if (i) {
-                std::cout << " | ";
-            }
-
-            const auto column = query.getColumn(i);
-
-            std::cout
-                << column.getName()
-                << "="
-                << (column.isNull()
-                        ? "NULL"
-                        : column.getString());
-        }
-
-        std::cout << '\n';
-    }
-
-    if (!rows) {
-        std::cout << "No records found.\n";
-    }
-}
 
 void changePassword(
     SQLite::Database&,
