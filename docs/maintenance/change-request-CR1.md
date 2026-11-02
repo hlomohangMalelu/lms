@@ -88,6 +88,7 @@ This preserves v1.0 individual-extension behaviour while allowing a class-wide d
 | IT-CR1-03 | No extension exists | Original deadline remains effective |
 | IT-CR1-04 | Unassigned or inactive lecturer attempts a class extension | Authorization denies operation and no row is written |
 | ST-CR1-01 | Lecturer grants a whole-class extension in console | Lecturer can choose class scope and provide deadline/reason |
+| IT-CR1-05 | Student assignment-list query returns original and effective deadlines for students with different extension scopes | UI query returns individual override for one student and class-wide default for another |
 | ST-CR1-02 | Student views assignment list | Original and effective deadlines are visible; effective deadline follows precedence |
 | REG-CR1-01 | Existing individual-extension and complete regression suites | Existing behaviour remains unchanged and all tests pass |
 
