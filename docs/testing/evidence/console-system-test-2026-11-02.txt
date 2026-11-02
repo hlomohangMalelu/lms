@@ -1,0 +1,21 @@
+Moderated LMS — automated black-box console/system test evidence
+Execution date: 2 November 2026
+Build: clean C++17 Debug build, GCC 14.2.0, CMake 3.31.6
+Test command: ctest --test-dir build-coverage -R ConsoleWorkflowSystemTest -V
+Database: disposable temporary SQLite databases; all data removed after each scenario.
+
+Observed output:
+ST-08 startup database-path failure: PASS (diagnostic and non-zero exit)
+ST-08 active-session write failure: PASS (clear error, no partial rows)
+ST-04 one-day late penalty uses 10% of maximum mark: PASS
+ST-03/FR-10 resubmission history and >3-day late zero mark: PASS
+1/1 Test #126: ConsoleWorkflowSystemTest ... Passed
+
+Database assertions:
+1. Startup with data as a regular file exits non-zero and prints a fatal diagnostic.
+2. Injected BEFORE INSERT trigger rejects submission file persistence. The console reports the SQLite error; no submission, submission_files or submission_attempts row remains; no numeric success ID is reported.
+3. Student submits twice. submission_attempts contains attempt 1 and attempt 2 with their separate file references; submission_files points to the latest file.
+4. Assignment deadline is set 23 hours and 59 minutes before the current local time; raw mark 80/100 becomes final mark 70, deducting 10% of the maximum mark.
+5. Assignment deadline is set four days before the current local time. Student submission is accepted; lecturer marking stores penalty_fraction=1.0 and final_mark=0.0.
+
+The test uses a temporary local database and does not alter any user data.

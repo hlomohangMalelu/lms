@@ -1,0 +1,359 @@
+
+First-run administrator created. Login: admin / ChangeMe123!
+Change this password immediately from the account menu.
+
+
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, System Administrator (ADMIN).
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Created department id Department name: 1
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Created course id Department id: Course title: Course code: 1
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Username: Full name: Role (STUDENT/LECTURER/HOD/ADMIN): Initial password (minimum 12 characters): Created user id 2
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Student number: User id: 
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Username: Full name: Role (STUDENT/LECTURER/HOD/ADMIN): Initial password (minimum 12 characters): Created user id 3
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Staff number: User id: 
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Course id: Lecturer user id: 
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Course id: Student user id: 
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Username: Full name: Role (STUDENT/LECTURER/HOD/ADMIN): Initial password (minimum 12 characters): Created user id 4
+
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: Department id: User id: 
+ADMIN MENU
+1 Create department
+2 Create course
+3 Create user
+4 Register student profile
+5 Register lecturer profile
+6 Assign head of department
+7 Assign lecturer to course
+8 Enrol student
+9 Deactivate user
+10 List users
+11 List courses
+12 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, Lecturer One (LECTURER).
+
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: Course id: Assignment title: Instructions: Deadline (YYYY-MM-DD HH:MM:SS): Maximum mark: Created assignment id 1
+
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, Student One (STUDENT).
+
+STUDENT MENU
+1 My courses and assignments
+2 Submit/resubmit assignment
+3 View released marks and feedback
+4 Change password
+0 Logout
+Choice: Assignment id: Submission file path/reference: 
+STUDENT MENU
+1 My courses and assignments
+2 Submit/resubmit assignment
+3 View released marks and feedback
+4 Change password
+0 Logout
+Choice: Assignment id: Submission file path/reference: Saved submission id 1
+
+STUDENT MENU
+1 My courses and assignments
+2 Submit/resubmit assignment
+3 View released marks and feedback
+4 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, Lecturer One (LECTURER).
+
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: Submission id: Raw mark: 
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: Submission id: Raw mark: 
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: Submission id: Raw mark: Feedback: Audit reason: Mark saved and audited.
+
+LECTURER MENU
+1 My courses
+2 Create assignment
+3 View submissions
+4 Mark submission
+5 Grant extension
+6 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, Head One (HOD).
+
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: submission_id=1 | code=CS101 | title=Assignment One | full_name=Student One | raw_mark=80.0 | final_mark=80.0 | status=MARKED
+
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: Submission id: 
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: Submission id: Moderated mark: Moderation notes: Audit reason: Moderation saved; approval is required again.
+
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: Submission id: Approved.
+
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: Submission id: Mark released to student.
+
+HEAD OF DEPARTMENT MENU
+1 View marked submissions
+2 Moderate mark
+3 Approve mark
+4 Release mark
+5 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: Password: Username: Welcome, Student One (STUDENT).
+
+STUDENT MENU
+1 My courses and assignments
+2 Submit/resubmit assignment
+3 View released marks and feedback
+4 Change password
+0 Logout
+Choice: code=CS101 | title=Assignment One | submission_id=1 | raw_mark=80.0 | final_mark=80.0 | feedback=Good work | released_at=2026-10-31 22:49:11
+
+STUDENT MENU
+1 My courses and assignments
+2 Submit/resubmit assignment
+3 View released marks and feedback
+4 Change password
+0 Logout
+Choice: 
+MODERATED LEARNING MANAGEMENT SYSTEM
+1 Login
+0 Exit
+Choice: 
+--- STDERR ---
+Error: You are not enrolled in the assignment course.
+Error: Mark exceeds maximum.
+Error: Enter a non-negative number.
+Error: Mark must be moderated and approved before release.

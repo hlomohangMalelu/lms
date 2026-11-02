@@ -1,0 +1,11 @@
+Manual smoke check — 1 November 2026
+Build: build-verify/lms (fresh Debug, C++17, GNU 14.2.0)
+Database: disposable working directory; application-created data/lms.db
+
+Checks performed:
+1. First launch created the initial administrator account.
+2. Login with an unknown username and incorrect password was rejected with the generic login-failed message.
+3. Login with username admin and the documented first-run password succeeded and displayed the ADMIN menu.
+4. Logout returned to the main menu; exit completed with status 0.
+
+Outcome: partial pass for ST-01 only. The inactive-account branch and all other system/acceptance cases were not tested. Do not use the default password beyond a disposable test environment; change it immediately in any real deployment.

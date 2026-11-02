@@ -1,0 +1,42 @@
+Moderated LMS - System / Role Workflow Evidence
+Execution date: 2 November 2026
+Application: built C++17 console executable (build-next/lms)
+Database: disposable SQLite database at /tmp/lms-system-e2e/data/lms.db
+Test accounts: Student One, Lecturer One, Head One, Other Student, Other Lecturer, Other HoD, Administrator, Inactive Student
+All test accounts used a disposable test password hash; no production data was used.
+
+ST-01 Authentication
+- First-run administrator login succeeded and displayed the ADMIN menu.
+- Inactive student login was rejected with: "Login failed. Check credentials or account status."
+- Incorrect password login was rejected with the same generic message.
+
+ST-02 / ST-07 Role and department boundaries
+- Student One attempted assignment 200 in a course where they are not enrolled. Application rejected the request with: "You are not enrolled in the assignment course." Database verification: zero submission rows for student 1 / assignment 200.
+- Lecturer One attempted to mark submission 2 from a course outside their assigned courses. Application rejected the request with: "Submission not found in your assigned courses." Submission 2 and its audit count were unchanged.
+- Head One attempted to moderate submission 2 from another department. Application rejected the request with: "Submission is not available for moderation." Submission 2 and its audit count were unchanged.
+
+ST-03 / AT-04 Student submission and viewing
+- Student One submitted assignment 100. Submission and file-reference rows were persisted.
+- After release, Student One's view released marks menu displayed the released result and feedback.
+- Other Student attempted to view marks while their own submission was not released. Application displayed: "No released marks yet." It did not display Student One's released mark.
+
+ST-05 / AT-02 Lecturer workflow
+- Lecturer One created assignment 201 in assigned course 10; database verification found the new assignment.
+- Lecturer One granted an individual extension for Student One / assignment 100; database verification found the extension.
+- Lecturer One marked submission 1 with raw mark 90 and feedback. The submission was persisted as MARKED and an audit row was created.
+
+ST-06 / AT-03 HoD workflow
+- Head One moderated submission 1 to 85, recorded moderation notes and audit reason, approved it, and released it.
+- Database verification: submission 1 status RELEASED, raw mark 90, final mark 85, feedback retained, released_by = Head One; mark_records contains moderation and approval; audit_log contains two entries.
+
+ST-08 Database startup failure
+- Starting the application with `data` as a regular file rather than a directory exited with status 1 and reported a filesystem error. This confirms startup failure is surfaced; an active-session write failure / rollback through the console remains untested.
+
+Acceptance limitation
+- These are executable functional demonstrations against a disposable database, not formal stakeholder acceptance sign-off. AT-01's full user/profile/course setup path and stakeholder approval remain outstanding.
+
+Additional exception and acceptance paths
+- Student One resubmitted assignment 201 before marking. Database verification found exactly one submission row for the student/assignment and the file reference was updated to the second file path.
+- Student One attempted unknown assignment 999; application rejected it. No submission was created.
+- Lecturer One attempted to mark submission 3 with mark 101 when the maximum was 100, then attempted missing submission 999. Both were rejected; submission 3 remained SUBMITTED with NULL marks and zero audit rows.
+- Administrator created department 3, created course AC101 in that department, created active student account `acceptstudent`, registered its student profile AS001, and enrolled that student in course 21. Database verification confirmed each row.

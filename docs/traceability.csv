@@ -1,1 +1,23 @@
-requirement_id,use_case,design_class,database_table,test_id
+requirement_id,use_case,design_class,database_table,test_id,status
+FR-01,UC01-UC04,AuthService;BcryptPasswordHasher;User,users,UT-03;ST-01,Verified for tested login paths
+FR-02,UC01-UC04,SQLiteAuthorizationPolicy;AdminService;SubmissionService;MarkingService;ModerationService,users;students;lecturers;heads_of_department;enrolments;course_lecturers,UT-06;ST-02;ST-07,Verified for tested role and ownership paths
+FR-03,UC-Admin,AdminService,users,IT-04;AT-01,Partial: create/deactivate/view; update not implemented
+FR-04,UC-Admin,AdminService,departments;courses,IT-04;AT-01,Create paths verified; update/delete management not fully demonstrated
+FR-05,UC-Lecturer,main.cpp assignment workflow; Assignment,assignments,ST-05;AT-02,Verified for demonstrated create path
+FR-06,UC-Lecturer,SubmissionService;Extension,extensions,IT-02;IT-07;AT-02,Verified for individual extension and deadline override
+FR-07,UC-Lecturer,MarkingService;AuditLog;TenPercentPerDayStrategy,submissions;audit_log,UT-05;IT-01;ST-05;AT-02,Verified for service and demonstrated console paths
+FR-08,UC-Student,studentMenu;Course;Assignment,courses;enrolments;assignments,ST-03;AT-04,Verified for demonstrated enrolled assignment list
+FR-09,UC01,SubmissionService;Submission;SubmissionAttempt,submissions;submission_files;submission_attempts,IT-01;IT-09;ST-03;AT-04,Verified for on-time and late submission paths
+FR-10,UC01,SubmissionService;SubmissionAttempt,submissions;submission_files;submission_attempts,UT-04;IT-06;ST-03,Verified: each resubmission attempt retained
+FR-11,UC01-UC03,Submission;MarkingService;ModerationService,submissions,UT-04;UT-05;IT-01;ST-03;ST-05;ST-06,Verified for exercised lifecycle transitions
+FR-12,UC01,TenPercentPerDayStrategy;SubmissionService;MarkingService,submissions,UT-02;IT-05;IT-09;ST-04,Verified: daily deductions through day 3; zero after day 3
+FR-13,UC-HoD,ModerationService;HeadOfDepartment;SQLiteAuthorizationPolicy,heads_of_department;courses;submissions;mark_records,UT-06;IT-01;ST-06;ST-07;AT-03,Verified for tested departmental moderation paths
+FR-14,UC-HoD,ModerationService;MarkRecord,mark_records;submissions,IT-01;ST-06;AT-03,Verified for approved release workflow
+FR-15,UC-Student,studentMenu release visibility,submissions;mark_records,ST-06;AT-04,Verified for tested unreleased/released visibility paths
+FR-16,UC-Lecturer;UC-HoD,AuditLog;SQLiteAuditLogRepository,audit_log,UT-05;IT-01;IT-03;ST-05;ST-06,Verified for mark changes and moderation audit entries
+NFR-01,All use cases,Console application;SQLite local persistence,all local tables,Code review;ST-01,Offline design has no runtime network dependency; no separate disconnected-machine test
+NFR-02,UC01-UC04,BcryptPasswordHasher;AuthService,users.password_hash,UT-03;ST-01,Verified by bcrypt login and database password-hash storage
+NFR-03,UC01-UC04,SQLiteAuthorizationPolicy;all services,users;students;lecturers;heads_of_department;enrolments;course_lecturers,UT-06;IT-11;ST-02;ST-07,Verified for tested protected operations
+NFR-04,All database operations,SQLite repositories;service SQL,all user-supplied SQL values,Code inspection;IT-01-IT-11,Parameterized binding verified in reviewed paths; static analysis is Phase 6
+NFR-05,All role menus,ConsoleIO;main.cpp,Not applicable,Acceptance demonstration; stakeholder usability review,Functional role menus demonstrated; external usability review pending
+NFR-06,UC01,AuthService;SQLite user lookup,users,IT-08,Pass: login under 2 seconds with 800 student accounts in test environment
