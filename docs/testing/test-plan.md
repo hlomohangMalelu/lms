@@ -72,7 +72,7 @@ Where a requirement does not explicitly define inclusive deadline equality or ex
 
 ## 5. Automated test inventory
 
-Automated tests are organised under `tests/unit`, `tests/integration` and `tests/system`. GoogleTest cases are discovered by CTest; the black-box console test is registered directly with CTest. The full current inventory is **126 CTest tests**.
+Automated tests are organised under `tests/unit`, `tests/integration` and `tests/system`. GoogleTest cases are discovered by CTest; the black-box console test is registered directly with CTest. The full current inventory at the Phase 8 CR1 validation commit is **135 CTest tests** (as reported by GitHub Actions run #74).
 
 | ID | Level | Scenario / expected result | Current status |
 |---|---|---|---|
@@ -98,6 +98,17 @@ Automated tests are organised under `tests/unit`, `tests/integration` and `tests
 | AT-04 | Acceptance | Student assignment view, submit/resubmit and released feedback | Demonstrated; formal stakeholder sign-off pending |
 
 The test execution records and the exact test names are authoritative. Do not interpret a partial acceptance result as complete satisfaction of the related requirement.
+
+
+### Phase 8 CR1 validation execution record (2026-11-02)
+
+- Local full test suite: reported passing by the project owner; local console output was not independently captured in this record.
+- GitHub Actions: [run #74](https://github.com/hlomohangMalelu/lms/actions/runs/41477729251), commit `eaafba9e31865a6cfc4d5747aa3be02d0b178b35`.
+- Ubuntu CTest: **135/135 passed**.
+- macOS CTest: **135/135 passed**.
+- Coverage job: passed the configured 70% minimum line-coverage gate. The exact percentage is not included because it was not printed in the inspected job log; see the `lms-coverage-Linux` workflow artifact for the detailed report.
+- clang-tidy: job completed successfully and uploaded `lms-clang-tidy-report`; the report contains non-fatal diagnostics, so success must not be interpreted as zero warnings.
+- CR1 manual acceptance: the student-facing console rendering and lecturer whole-class extension menu scenario still require a recorded manual demonstration. Formal stakeholder sign-off remains pending.
 
 ## 6. Execution, defect handling and regression
 

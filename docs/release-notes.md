@@ -49,6 +49,15 @@ Back up `data/lms.db` and submission data before replacing the executable or sch
 ### Regression and release status
 
 - Unit and integration test cases cover class-extension persistence, validation, authorization and deadline precedence.
-- The student-facing assignment-list display and multi-student class-extension behaviour must be verified explicitly.
-- **Release gate: pending.** Do not treat this as a completed v1.1 release until the full regression suite, Ubuntu and macOS CI, coverage target, and static analysis have passed and their run links/results are recorded here.
-- **Tag:** `v1.1` is to be created only after those gates pass. No release tag is asserted by this note.
+- Automated CR1 regression coverage includes class-extension persistence, validation, authorization, precedence, multi-student behaviour, assignment-list deadline selection and fallback to the original deadline.
+
+### Validation record (2026-11-02)
+
+- Local validation: the project owner reports that the full local test suite passes.
+- GitHub Actions run [#74](https://github.com/hlomohangMalelu/lms/actions/runs/41477729251) on commit `eaafba9e31865a6cfc4d5747aa3be02d0b178b35`: **all four jobs passed**.
+- Ubuntu and macOS: CTest passed **135/135 tests** on each platform.
+- Business-logic coverage: the coverage job passed its configured **70% minimum line-coverage gate**. The exact measured percentage was not emitted in the job log inspected for this record; consult the uploaded `lms-coverage-Linux` artifact before publishing a numeric percentage.
+- Static analysis: the clang-tidy job completed successfully and uploaded its report. It reported non-fatal findings (including readability/style, magic-number and reference-member checks); review and triage them before treating the report as warning-free.
+- PR [#21](https://github.com/hlomohangMalelu/lms/pull/21) was merged to `main` on 2026-11-02.
+- **Outstanding release gate:** manually demonstrate the lecturer whole-class extension flow and the student assignment-list display (including original/effective deadline values) using the documented acceptance scenarios, then record tester/date/evidence in the system/acceptance execution records. Formal stakeholder sign-off also remains pending as stated in the test plan.
+- **Tag:** `v1.1` has not been created. Create it only after the manual acceptance evidence and sign-off are recorded.
