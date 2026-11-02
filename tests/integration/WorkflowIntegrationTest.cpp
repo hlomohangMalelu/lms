@@ -192,6 +192,17 @@ TEST_F(WorkflowIntegrationTest, ResubmissionPreservesEarlierAttemptHistory) {
     EXPECT_EQ(scalar("SELECT COUNT(*) FROM submission_files WHERE submission_id = 1 AND file_path = 'attempt-2.pdf'"), 1);
 }
 
+TEST_F(WorkflowIntegrationTest, ClassExtensionAppliesToEnrolledStudentsAndIsStored) {
+    lms::service::SubmissionService submissionService(db, authorization);
+    submissionService.grantClassExtension(1, 100, 3, "2026-12-12 23:59:00", "Whole class extension");
+
+    const auto submissionId = submissionService.submit(
+        100, 1, "uploads/S001-class-extension.pdf", "2026-12-12 12:00:00");
+    EXPECT_GT(submissionId, 0);
+    EXPECT_EQ(scalar("SELECT COUNT(*) FROM class_extensions WHERE assignment_id=100 AND granted_by=3"), 1);
+    EXPECT_EQ(scalar("SELECT COUNT(*) FROM submissions WHERE id=" + std::to_string(submissionId) + " AND status='SUBMITTED' AND days_late=0"), 1);
+}
+
 TEST_F(WorkflowIntegrationTest, ExtensionDeadlineIsInclusiveAndOneSecondAfterIsLate) {
     lms::service::SubmissionService submissionService(db, authorization);
     submissionService.grantExtension(1, 100, 1, 3, "2026-12-12 23:59:00", "Approved extension");
