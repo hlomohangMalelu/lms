@@ -23,6 +23,10 @@ protected:
             "reason TEXT NOT NULL, UNIQUE(assignment_id,student_id))"
         );
         database.exec(
+            "CREATE TABLE class_extensions(id INTEGER PRIMARY KEY, assignment_id INTEGER UNIQUE NOT NULL, "
+            "granted_by INTEGER NOT NULL, new_deadline TEXT NOT NULL, reason TEXT NOT NULL)"
+        );
+        database.exec(
             "CREATE TABLE submissions(id INTEGER PRIMARY KEY, assignment_id INTEGER NOT NULL, "
             "student_id INTEGER NOT NULL, status TEXT NOT NULL, days_late INTEGER NOT NULL DEFAULT 0, "
             "penalty_fraction REAL NOT NULL DEFAULT 0, raw_mark REAL, final_mark REAL, feedback TEXT, "
@@ -149,6 +153,43 @@ TEST_F(SubmissionServiceTest, RejectsResubmissionAfterMarkingOrRelease) {
     update.bind(1, static_cast<std::int64_t>(id));
     update.exec();
     EXPECT_THROW(service.submit(10, 20, "replacement.pdf", "2026-10-20 13:00:00"), std::logic_error);
+}
+
+TEST_F(SubmissionServiceTest, AppliesClassExtensionWhenNoIndividualExtensionExists) {
+    service.grantClassExtension(1, 10, 30, "2026-10-25 23:59:00", "Whole class extension");
+    const auto id = service.submit(10, 20, "class-work.pdf", "2026-10-24 12:00:00");
+    SQLite::Statement query(database, "SELECT status, days_late FROM submissions WHERE id = ?");
+    query.bind(1, static_cast<std::int64_t>(id));
+    ASSERT_TRUE(query.executeStep());
+    EXPECT_EQ(query.getColumn(0).getString(), "SUBMITTED");
+    EXPECT_EQ(query.getColumn(1).getInt(), 0);
+}
+
+TEST_F(SubmissionServiceTest, IndividualExtensionOverridesClassExtension) {
+    service.grantClassExtension(1, 10, 30, "2026-10-22 23:59:00", "Whole class extension");
+    service.grantExtension(2, 10, 20, 30, "2026-10-25 23:59:00", "Individual extension");
+    const auto id = service.submit(10, 20, "individual-work.pdf", "2026-10-24 12:00:00");
+    SQLite::Statement query(database, "SELECT status, days_late FROM submissions WHERE id = ?");
+    query.bind(1, static_cast<std::int64_t>(id));
+    ASSERT_TRUE(query.executeStep());
+    EXPECT_EQ(query.getColumn(0).getString(), "SUBMITTED");
+    EXPECT_EQ(query.getColumn(1).getInt(), 0);
+}
+
+TEST_F(SubmissionServiceTest, RejectsClassExtensionWithMissingDeadlineOrBlankReason) {
+    EXPECT_THROW(service.grantClassExtension(1, 10, 30, "", "valid reason"), std::invalid_argument);
+    EXPECT_THROW(service.grantClassExtension(1, 10, 30, "2026-10-25 23:59:00", "  \t"), std::invalid_argument);
+}
+
+TEST_F(SubmissionServiceTest, GrantsAndUpdatesClassExtension) {
+    service.grantClassExtension(1, 10, 30, "2026-10-25 23:59:00", "First reason");
+    service.grantClassExtension(2, 10, 31, "2026-10-26 23:59:00", "Updated reason");
+    EXPECT_EQ(count("class_extensions"), 1);
+    SQLite::Statement query(database, "SELECT granted_by, new_deadline, reason FROM class_extensions WHERE assignment_id=10");
+    ASSERT_TRUE(query.executeStep());
+    EXPECT_EQ(query.getColumn(0).getInt64(), 31);
+    EXPECT_EQ(query.getColumn(1).getString(), "2026-10-26 23:59:00");
+    EXPECT_EQ(query.getColumn(2).getString(), "Updated reason");
 }
 
 TEST_F(SubmissionServiceTest, RejectsExtensionWithMissingDeadlineOrBlankReason) {

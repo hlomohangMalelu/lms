@@ -72,6 +72,16 @@ CREATE TABLE IF NOT EXISTS extensions (
 );
 
 
+-- One deadline extension shared by every student enrolled in the assignment course.
+CREATE TABLE IF NOT EXISTS class_extensions (
+    id             INTEGER PRIMARY KEY,
+    assignment_id  INTEGER NOT NULL UNIQUE REFERENCES assignments(id) ON DELETE RESTRICT,
+    granted_by     INTEGER NOT NULL REFERENCES lecturers(user_id) ON DELETE RESTRICT,
+    new_deadline   TEXT NOT NULL CHECK (datetime(new_deadline) IS NOT NULL),
+    reason         TEXT NOT NULL CHECK (length(trim(reason)) > 0)
+);
+
+
 CREATE TABLE IF NOT EXISTS submissions (
     id               INTEGER PRIMARY KEY,
     assignment_id    INTEGER NOT NULL REFERENCES assignments(id) ON DELETE RESTRICT,

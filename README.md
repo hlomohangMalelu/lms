@@ -114,7 +114,7 @@ lms/
 
 ## Deployment and user documentation
 
-- [UML deployment diagram ](docs/deployment/deployment-diagram.png)
+- [UML deployment diagram (SVG)](docs/deployment/deployment-diagram.svg)
 - [Deployment architecture](docs/deployment/deployment-architecture.md)
 - [Installation guide](docs/deployment/installation-guide.md)
 - [Administrator guide](docs/user-guides/administrator-guide.md)
@@ -122,4 +122,8 @@ lms/
 - [Student guide](docs/user-guides/student-guide.md)
 - [Head of Department guide](docs/user-guides/head-of-department-guide.md)
 - [Version 1.0 release notes](docs/release-notes.md)
+- [Phase 7 completion checklist](docs/quality/phase7-completion-checklist.md)
 
+## Maintenance
+
+- [Phase 8 maintenance change request CR1](docs/maintenance/change-request-CR1.md)

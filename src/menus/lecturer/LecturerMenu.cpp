@@ -87,8 +87,9 @@ void lecturerMenu(
             << "2 Create assignment\n"
             << "3 View submissions\n"
             << "4 Mark submission\n"
-            << "5 Grant extension\n"
-            << "6 Change password\n"
+            << "5 Grant individual extension\n"
+            << "6 Grant whole-class extension\n"
+            << "7 Change password\n"
             << "0 Logout\n"
             <<"--------------------------------------\n";
 
@@ -440,6 +441,27 @@ void lecturerMenu(
 
                 std::cout << "Extension saved.\n";
             } else if (choice == "6") {
+                const auto assignment = number("Assignment id: ");
+                const auto deadline = prompt(
+                    "New class deadline (YYYY-MM-DD HH:MM:SS): "
+                );
+                const auto reason = prompt("Reason: ");
+
+                lms::security::SQLiteAuthorizationPolicy authorization(db);
+                lms::service::SubmissionService service(db, authorization);
+                SQLite::Statement nextId(
+                    db, "SELECT COALESCE(MAX(id), 0) + 1 FROM class_extensions"
+                );
+                nextId.executeStep();
+                service.grantClassExtension(
+                    nextId.getColumn(0).getInt64(),
+                    assignment,
+                    user.id,
+                    deadline,
+                    reason
+                );
+                std::cout << "Whole-class extension saved.\n";
+            } else if (choice == "7") {
                 lms::service::AuthService auth(db, hasher);
                 changePassword(db, auth, user);
             } else {

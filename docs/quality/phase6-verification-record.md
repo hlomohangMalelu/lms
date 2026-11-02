@@ -53,7 +53,7 @@ Follow-up local verification (GNU C++ 14.2.0, CMake 3.31.6):
 - CTest: **126/126 passed**, including `ConsoleWorkflowSystemTest`.
 - The test run includes startup failure handling, submission transaction rollback, one-day late penalty calculation, and resubmission history / zero-mark behaviour.
 
-This is local Linux verification only
+This is local Linux verification only. macOS CI and hosted `clang-tidy` results remain pending until the workflow is pushed to GitHub and executed there.
 
 
 ### Review of the latest supplied archive

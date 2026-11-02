@@ -90,6 +90,23 @@ namespace lms::security {
         );
     }
 
+    bool SQLiteAuthorizationPolicy::canGrantClassExtension(
+        long long lecturer,
+        long long assignment
+    ) const {
+        return exists(
+            database_,
+            "SELECT 1 FROM users u "
+            "JOIN lecturers l ON l.user_id=u.id "
+            "JOIN course_lecturers cl ON cl.lecturer_id=l.user_id "
+            "JOIN assignments a ON a.course_id=cl.course_id "
+            "WHERE u.id=? AND a.id=? "
+            "AND u.role='LECTURER' AND u.active=1",
+            lecturer,
+            assignment
+        );
+    }
+
     bool SQLiteAuthorizationPolicy::canMarkSubmission(
         long long lecturer,
         long long submission
@@ -167,6 +184,17 @@ namespace lms::security {
             throw std::runtime_error(
                 "Access denied: lecturer is not assigned to this course "
                 "or student is not enrolled."
+            );
+        }
+    }
+
+    void SQLiteAuthorizationPolicy::requireCanGrantClassExtension(
+        long long id,
+        long long assignment
+    ) const {
+        if (!canGrantClassExtension(id, assignment)) {
+            throw std::runtime_error(
+                "Access denied: lecturer is not assigned to this course."
             );
         }
     }

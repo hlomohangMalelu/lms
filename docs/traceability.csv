@@ -4,9 +4,9 @@ FR-02,UC01-UC04,SQLiteAuthorizationPolicy;AdminService;SubmissionService;Marking
 FR-03,UC-Admin,AdminService,users,IT-04;AT-01,Partial: create/deactivate/view; update not implemented
 FR-04,UC-Admin,AdminService,departments;courses,IT-04;AT-01,Create paths verified; update/delete management not fully demonstrated
 FR-05,UC-Lecturer,main.cpp assignment workflow; Assignment,assignments,ST-05;AT-02,Verified for demonstrated create path
-FR-06,UC-Lecturer,SubmissionService;Extension,extensions,IT-02;IT-07;AT-02,Verified for individual extension and deadline override
+FR-06,UC-Lecturer,SubmissionService;Extension,extensions;class_extensions,IT-02;IT-07;AT-02;UT-CR1-01;IT-CR1-01,Individual and class-wide extension paths implemented; regression execution pending
 FR-07,UC-Lecturer,MarkingService;AuditLog;TenPercentPerDayStrategy,submissions;audit_log,UT-05;IT-01;ST-05;AT-02,Verified for service and demonstrated console paths
-FR-08,UC-Student,studentMenu;Course;Assignment,courses;enrolments;assignments,ST-03;AT-04,Verified for demonstrated enrolled assignment list
+FR-08,UC-Student,studentMenu;Course;Assignment,courses;enrolments;assignments;extensions;class_extensions,ST-03;AT-04;UT-CR1-02,Assignment list now displays original and effective deadlines; regression execution pending
 FR-09,UC01,SubmissionService;Submission;SubmissionAttempt,submissions;submission_files;submission_attempts,IT-01;IT-09;ST-03;AT-04,Verified for on-time and late submission paths
 FR-10,UC01,SubmissionService;SubmissionAttempt,submissions;submission_files;submission_attempts,UT-04;IT-06;ST-03,Verified: each resubmission attempt retained
 FR-11,UC01-UC03,Submission;MarkingService;ModerationService,submissions,UT-04;UT-05;IT-01;ST-03;ST-05;ST-06,Verified for exercised lifecycle transitions

@@ -18,7 +18,7 @@ SQLiteCpp, SQLite and bcrypt are included in the repository. GoogleTest is requi
 Clone the repository and initialise its submodules:
 
 ```sh
-git clone --recurse-submodules https://github.com/hlomohangMalelu/lms.git
+git clone --recurse-submodules <repository-url>
 cd lms
 # If already cloned without submodules:
 git submodule update --init --recursive
@@ -46,9 +46,7 @@ Run the application from the project root because it loads `db/schema.sql` using
 
 On macOS, use the same commands with Xcode Command Line Tools or another C++17 toolchain installed. On Windows, generate with CMake and run the resulting executable from the project root; the executable path depends on the selected generator/configuration.
 
-
-
-## 4.1 Run tests
+## 5. Run tests
 
 Initialise the GoogleTest submodule, then:
 
@@ -60,105 +58,6 @@ cmake -S . -B build-tests -DCMAKE_BUILD_TYPE=Debug \
 cmake --build build-tests --parallel 2
 ctest --test-dir build-tests --output-on-failure
 ```
-
-## 5. Install on Windows
-
-### 5.1 Requirements
-
-Before building the application, install:
-
-- **Git for Windows** – to clone the repository and initialise submodules.
-- **CMake 3.20 or newer** – ensure CMake is added to the system PATH.
-- **Visual Studio 2022 Build Tools** or Visual Studio 2022 – select the **Desktop development with C++** workload. Ensure the MSVC compiler and Windows SDK are included.
-
-SQLiteCpp, SQLite and bcrypt are included in the repository, so they do not need to be installed separately.
-
-### 5.2 Obtain the source code
-
-Open PowerShell and run:
-
-```powershell
-git clone --recurse-submodules https://github.com/hlomohangMalelu/lms.git
-cd lms
-```
-
-If the repository was cloned without submodules, initialise them:
-
-```powershell
-git submodule update --init --recursive
-```
-
-### 5.3 Configure and build
-
-From the project root, run:
-
-```powershell
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release `
-  -DLMS_BUILD_TESTS=OFF `
-  -DLMS_ENABLE_SQLITECPP=ON `
-  -DLMS_ENABLE_BCRYPT=ON
-```
-
-Build the application:
-
-```powershell
-cmake --build build --config Release --parallel 2
-```
-
-### 5.4 Run the application
-
-Run the executable from the project root so that the application can locate `db/schema.sql`:
-
-```powershell
-.\build\Release\lms.exe
-```
-
-If a single-configuration generator is used instead of Visual Studio, the executable may be located at:
-
-```powershell
-.\build\lms.exe
-```
-
-On first launch, the application creates its local SQLite database at `data/lms.db` and initialises the database schema.
-
-Use the initial administrator credentials:
-
-- Username: `admin`
-- Password: `ChangeMe123!`
-
-Change the initial password immediately after logging in.
-
-### 5.5 Run tests (optional)
-
-To build and run the test suite, ensure the GoogleTest submodule has been initialised:
-
-```powershell
-git submodule update --init --recursive
-```
-
-Configure and build:
-
-```powershell
-cmake -S . -B build-tests -DCMAKE_BUILD_TYPE=Debug `
-  -DLMS_BUILD_TESTS=ON `
-  -DLMS_ENABLE_SQLITECPP=ON `
-  -DLMS_ENABLE_BCRYPT=ON
-
-cmake --build build-tests --config Debug --parallel 2
-```
-
-Run the tests:
-
-```powershell
-ctest --test-dir build-tests -C Debug --output-on-failure
-```
-
-### 5.6 Windows data storage and backups
-
-The database is stored in the project's `data` directory. Stop the application before backing up `data/lms.db`. Also back up the actual submission files referenced by the database, including files stored outside the project directory.
-
-Restrict access to the database and backups because they contain student and academic records.
-
 
 ## 6. First run and administrator account
 
