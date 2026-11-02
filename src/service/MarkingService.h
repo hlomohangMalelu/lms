@@ -5,6 +5,7 @@
 #include "repository/submission/ISubmissionRepository.h"
 
 #include <string>
+#include "security/IAuthorizationPolicy.h"
 
 namespace lms::service {
 
@@ -13,7 +14,8 @@ namespace lms::service {
             MarkingService(
                 lms::repository::ISubmissionRepository& submissionRepository,
                 lms::repository::IAuditLogRepository& auditLogRepository,
-                const lms::domain::ILatePenaltyStrategy& penaltyStrategy
+                const lms::domain::ILatePenaltyStrategy& penaltyStrategy,
+                const lms::security::IAuthorizationPolicy& authorization
             );
 
             void markSubmission(
@@ -31,6 +33,7 @@ namespace lms::service {
             lms::repository::ISubmissionRepository& submissionRepository_;
             lms::repository::IAuditLogRepository& auditLogRepository_;
             const lms::domain::ILatePenaltyStrategy& penaltyStrategy_;
+            const lms::security::IAuthorizationPolicy& authorization_;
     };
 
 }
