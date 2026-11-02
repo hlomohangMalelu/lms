@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(ModeratedLMS
-    VERSION 1.0.0
+    VERSION 1.1.0
     DESCRIPTION "Moderated Learning Management System"
     LANGUAGES CXX
 )
