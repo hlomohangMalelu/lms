@@ -51,7 +51,7 @@ protected:
   db.exec("CREATE TABLE submissions(id INTEGER PRIMARY KEY,assignment_id INTEGER,student_id INTEGER,status TEXT,days_late INTEGER DEFAULT 0,penalty_fraction REAL DEFAULT 0,raw_mark REAL,final_mark REAL,feedback TEXT,released_at TEXT,released_by INTEGER)");
   db.exec("CREATE TABLE submission_files(submission_id INTEGER PRIMARY KEY,file_path TEXT,submitted_at TEXT)");
   db.exec("CREATE TABLE extensions(id INTEGER PRIMARY KEY,assignment_id INTEGER,student_id INTEGER,granted_by INTEGER,new_deadline TEXT,reason TEXT)");
-  db.exec("CREATE TABLE class_extensions(id INTEGER PRIMARY KEY,assignment_id INTEGER,granted_by INTEGER,new_deadline TEXT,reason TEXT)");
+  db.exec("CREATE TABLE class_extensions(id INTEGER PRIMARY KEY,assignment_id INTEGER UNIQUE,granted_by INTEGER,new_deadline TEXT,reason TEXT)");
   db.exec("CREATE TABLE mark_records(id INTEGER PRIMARY KEY,submission_id INTEGER)");
   db.exec("CREATE TABLE audit_log(id INTEGER PRIMARY KEY,submission_id INTEGER,changed_by INTEGER,changed_at TEXT,old_value REAL,new_value REAL,reason TEXT)");
   db.exec("INSERT INTO departments VALUES(1,'Computing'),(2,'Business')");
