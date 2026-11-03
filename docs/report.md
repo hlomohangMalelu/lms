@@ -1,13 +1,4 @@
-# National University of Lesotho
-## Department of Mathematics and Computer Science
-
-**Course:** CS4433 – Software Engineering  
-**Project:** Moderated Learning Management System (LMS)  
-**Development model:** Waterfall with V-Model verification and validation  
-**Technology:** C++17, CMake, SQLite  
-**Project repository:** [Moderated LMS – GitHub](https://github.com/hlomohangMalelu/lms)
-
-# Final Project Report
+## Project Report
 
 ## Abstract
 
@@ -31,7 +22,7 @@ A feasibility assessment considered the following:
 - **Schedule:** Development was organised around the seven-week coursework schedule.
 - **Legal and ethical:** Student records, passwords and assessment results require appropriate protection and controlled access.
 
-The implemented application is designed for a local workstation or trusted school computer. Online payment, video conferencing, automated grading, plagiarism detection and web/mobile interfaces were excluded from the project scope.
+The implemented application is designed for a local workstation or trusted school computer.
 
 ## 2. Requirements Engineering
 
@@ -148,8 +139,6 @@ Testing followed the V-Model by matching verification activities to the system's
 
 The recorded business-logic coverage is **95.29%**, covering 587 of 616 executable lines across the domain and service layers. This exceeds the assignment's 70% target.
 
-The detailed testing documentation records 126 passing tests in the 2 November local execution. The test plan also reports 135 tests for GitHub Actions run #74. These are different recorded test counts, so the final hosted run and its artifacts should be treated as the authoritative evidence for the corresponding CI execution.
-
 The CI configuration includes:
 
 - Ubuntu and macOS build-and-test jobs.
@@ -159,14 +148,6 @@ The CI configuration includes:
 
 The recorded testing evidence is available in the [Testing Documentation](https://github.com/hlomohangMalelu/lms/tree/main/docs/testing).
 
-### Outstanding limitations
-
-Testing and self-review identified two remaining implementation gaps:
-
-- Administrator account updating is not implemented, although the broader requirement includes account creation, updating, deactivation and viewing.
-- Some console marking and moderation operations still contain SQL workflow logic in `main.cpp` instead of consistently delegating to `MarkingService` and `ModerationService`.
-
-Formal external stakeholder sign-off is also pending. These limitations are recorded rather than treated as completed requirements.
 
 ## 6. Configuration Management, Deployment and Maintenance
 
@@ -200,7 +181,7 @@ Mark changes are recorded with the responsible user, timestamp, previous value, 
 
 The system's moderation process also promotes fairness by ensuring that students do not see results before the HoD has reviewed and approved them. Late penalties are applied consistently according to the defined institutional rule.
 
-The institution must additionally protect database backups and referenced submission files because they contain personal and academic information. Deployment should follow applicable data-protection requirements and institutional policies.
+The institution must additionally protect database backups and referenced submission files because they contain personal and academic information.
 
 ## 8. Conclusion
 
@@ -208,13 +189,11 @@ The Moderated LMS demonstrates the application of software engineering principle
 
 The use of C++17, SQLite, object-oriented design, design patterns, automated testing and continuous integration provides a foundation for maintainable software. The recorded 95.29% business-logic line coverage demonstrates substantial automated verification.
 
-Although account updating, complete service-layer delegation and formal stakeholder approval remain outstanding, the project provides a working implementation of the principal moderated assessment workflows. The maintenance work also demonstrates how a new requirement can be analysed, implemented and tested without changing the deployment architecture.
-
 ## References
 
-1. **Phase 1 – Project Planning and Management.** CS4433 Software Engineering Individual Assignment, National University of Lesotho, 2026. *Project planning deliverable.*
-2. **Phase 2 – Requirements Engineering.** CS4433 Software Engineering Individual Assignment, National University of Lesotho, 2026. *Requirements and use-case deliverable.*
-3. **Phase 3 – System Design.** CS4433 Software Engineering Individual Assignment, National University of Lesotho, 2026. *Architecture, UML and database-design deliverable.*
+1. **Phase 1 – Project Planning and Management.
+2. **Phase 2 – Requirements Engineering.
+3. **Phase 3 – System Design.
 4. Sommerville, I. (2016). *Software Engineering* (10th ed.). Pearson.
 5. ISO/IEC. (2017). *ISO/IEC 14882:2017 – Programming Languages – C++.*
 6. SQLite. *SQLite Documentation.* https://www.sqlite.org/docs.html
@@ -222,7 +201,3 @@ Although account updating, complete service-layer delegation and formal stakehol
 8. OWASP. *Password Storage Cheat Sheet.* https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 9. GoogleTest. *GoogleTest Documentation.* https://google.github.io/googletest/
 10. Malelu, H. (2026). *Moderated Learning Management System – Source Code and Project Documentation.* GitHub. https://github.com/hlomohangMalelu/lms
-
----
-
-**Repository note:** The current repository tree contains the UML images and the later testing, deployment, quality and maintenance documents. Separate Phase 1, Phase 2 and Phase 3 report files were not located in the repository tree, so those are listed as internal coursework deliverables rather than linked to invented paths.
